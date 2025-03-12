@@ -40,7 +40,7 @@ include 'login_process.php';
             <button type="submit">Login</button>
         </form>
         
-        <p>Don't have an account? <a href="register.php">Register here</a></p>
+        <p>Zapoměli jste heslo? <a href="forgot_password.php">Nové heslo</a></p>
     </div>
 </body>
 </html>
