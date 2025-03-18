@@ -2,7 +2,7 @@
 $host = "localhost";
 $user = "root"; // Default user in XAMPP
 $pass = ""; // Default password is empty
-$dbname = "ticket_system";
+$dbname = "dad_db";
 
 // Create connection
 $conn = new mysqli($host, $user, $pass, $dbname);

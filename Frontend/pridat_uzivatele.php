@@ -1,5 +1,6 @@
 <?php
 include "db.php"; // Načteme připojení k databázi
+include 'header.php';
 
 $zprava = "";
 

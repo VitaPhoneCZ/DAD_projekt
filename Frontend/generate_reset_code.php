@@ -1,6 +1,7 @@
 <?php
 // Zahrnutí připojení k databázi
 include 'db.php';
+include 'header.php';
 
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
