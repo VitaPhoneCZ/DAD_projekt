@@ -8,7 +8,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $name = trim($_POST["name"]);
     $email = trim($_POST["email"]);
     $heslo = $_POST["heslo"];
-    $role = $_POST["role"] ?? "user"; // Výchozí role je "user", pokud není vybrána jiná
+    $role = $_POST["role"] ?? "zak"; // Výchozí role je "zak", pokud není vybrána jiná
 
     // Ověření vstupů
     if (empty($name) || empty($email) || empty($heslo)) {
@@ -17,7 +17,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $zprava = "Neplatný e-mail!";
     } elseif (strlen($heslo) < 6) {
         $zprava = "Heslo musí mít alespoň 6 znaků!";
-    } elseif (!in_array($role, ['admin', 'agent', 'user'])) {
+    } elseif (!in_array($role, ['ucitel', 'zak', 'it'])) {
         $zprava = "Neplatná role!";
     } else {
         // Hashování hesla
@@ -65,9 +65,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         <label for="role">Role:</label>
         <select id="role" name="role">
-            <option value="user">User</option>
-            <option value="agent">Agent</option>
-            <option value="admin">Admin</option>
+            <option value="zak">Žák</option>
+            <option value="ucitel">Učitel</option>
+            <option value="it">IT</option>
         </select><br>
 
         <button type="submit">Přidat uživatele</button>

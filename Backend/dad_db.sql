@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Počítač: 127.0.0.1
--- Vytvořeno: Pát 14. bře 2025, 21:03
+-- Vytvořeno: Pon 24. bře 2025, 10:30
 -- Verze serveru: 10.4.32-MariaDB
 -- Verze PHP: 8.2.12
 
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Databáze: `ticket_system`
+-- Databáze: `dad_db`
 --
 
 -- --------------------------------------------------------
@@ -47,6 +47,17 @@ CREATE TABLE `tickets` (
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_czech_ci;
+
+--
+-- Vypisuji data pro tabulku `tickets`
+--
+
+INSERT INTO `tickets` (`id`, `user_id`, `title`, `description`, `status`, `created_at`, `updated_at`) VALUES
+(101, 3, 'Problém s přihlášením', 'Uživatel se nemůže přihlásit do systému, hlásí nesprávné heslo.', 'open', '2025-03-20 09:15:00', '2025-03-20 09:15:00'),
+(102, 5, 'Chyba při odesílání formuláře', 'Formulář se neodesílá, zobrazuje chybu 500.', 'open', '2025-03-19 13:30:00', '2025-03-19 13:30:00'),
+(103, 2, 'Požadavek na reset hesla', 'Uživatel požaduje reset hesla, protože zapomněl staré.', 'open', '2025-03-18 07:45:00', '2025-03-18 07:45:00'),
+(104, 4, 'Nezobrazují se notifikace', 'Systém neposílá upozornění na nové zprávy.', 'open', '2025-03-17 15:10:00', '2025-03-17 15:10:00'),
+(105, 6, 'Špatné zobrazení stránky v Edge', 'Webová stránka se v prohlížeči Edge rozpadá.', 'open', '2025-03-16 08:25:00', '2025-03-16 08:25:00');
 
 -- --------------------------------------------------------
 
@@ -84,7 +95,10 @@ CREATE TABLE `users` (
 INSERT INTO `users` (`id`, `name`, `email`, `role`, `created_at`, `password`) VALUES
 (1, 'Admin', 'vitek.fikrle@student.souepl.cz', 'admin', '2025-03-11 08:25:38', '$2y$10$Zk3meW1CZxcKryZ04sGeoe6wzgW799SNBFSKit8Pt0mmdKMft7ww6'),
 (2, 'Admin2', 'simon.opatrny@student.souepl.cz', 'admin', '2025-03-12 07:55:24', '$2y$10$hQZ/sNfQ9jF/NMr4yiefnefA0WfIkjpKHnnfDT2qHH/p7ee8iHxJG'),
-(3, 'SkidybySigmál', 'ne@seznam.cz', 'agent', '2025-03-12 08:59:20', '$2y$10$bp/e3yFyIDY4T87y0FqUP.glXv0eJbmXB/uLt6pR5NjC5TRex93Zm');
+(3, 'SkidybySigmál', 'ne@seznam.cz', 'agent', '2025-03-12 08:59:20', '$2y$10$bp/e3yFyIDY4T87y0FqUP.glXv0eJbmXB/uLt6pR5NjC5TRex93Zm'),
+(4, 'test1@gmail.com', 'test1@gmail.com', 'user', '2025-03-24 09:24:36', '$2y$10$Nm2MqWa.9jW4e3Z8f1o5HOJVztvrwrHlW..IPPlIuFJVHxxn74mFi'),
+(5, 'test2@gmail.com', 'test2@gmail.com', 'user', '2025-03-24 09:24:43', '$2y$10$bWbPz2WEsNS2NZ8GkygdLODRauvGK550Qzgy4DsLAJ3x6L7G3tOl.'),
+(6, 'test3@gmail.com', 'test3@gmail.com', 'user', '2025-03-24 09:24:54', '$2y$10$1r6lzGBRDs9Qx/k.t5zEzO0OSViDOB3LzKZQVSFWRrPuUx2rJi.Vi');
 
 --
 -- Indexy pro exportované tabulky
@@ -126,7 +140,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT pro tabulku `tickets`
 --
 ALTER TABLE `tickets`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=106;
 
 --
 -- AUTO_INCREMENT pro tabulku `ticket_comments`
@@ -138,7 +152,7 @@ ALTER TABLE `ticket_comments`
 -- AUTO_INCREMENT pro tabulku `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- Omezení pro exportované tabulky
