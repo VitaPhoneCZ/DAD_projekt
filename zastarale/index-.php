@@ -1,15 +1,9 @@
 <?php
 session_start();
 include 'db.php';
-include 'header.php'; // Zahrnutí headeru a kontroly session
+include 'header.php'; // Includes the header and session check
 
-// Zkontroluj, jestli je uživatel přihlášen
-if (!isset($_SESSION['user'])) {
-    header('Location: login.php');
-    exit();
-}
-
-// Získání otevřených ticketů
+// Fetch open tickets
 $sql = "SELECT tickets.id, tickets.title, tickets.status, users.name 
         FROM tickets 
         JOIN users ON tickets.user_id = users.id 
@@ -27,6 +21,7 @@ $result = $conn->query($sql);
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
+
     <div class="container mt-4">
         <h2>Otevřené tickety</h2>
         <table class="table table-bordered">
@@ -56,5 +51,6 @@ $result = $conn->query($sql);
             </tbody>
         </table>
     </div>
+
 </body>
 </html>

@@ -1,46 +1,49 @@
 <?php
-// Start the session to store user information
 session_start();
 
-// Redirect to dashboard if the user is already logged in
+// Pokud je uživatel přihlášený, přesměruj ho na dashboard.php
 if (isset($_SESSION['user'])) {
-    header("Location: index.php");
+    header("Location: dashboard.php");
     exit();
 }
 
-// Include the login process script to handle the form submission
+// Načtení zpracování přihlášení
 include 'login_process.php';
+include __DIR__ . '/components/header.php';
+include __DIR__ . '/components/footer.php';
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="cs">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
-    <link rel="stylesheet" href="css/style.css">
+    <title>Přihlášení</title>
+    <link rel="stylesheet" href="s/style.css">
+    <link rel="stylesheet" href="s/auth.css">
 </head>
 <body>
-    <div class="login-container">
-        <h2>Login</h2>
-        
-        <!-- Display error message if login fails -->
-        <?php if (isset($error_message)): ?>
-            <p class="error"><?= $error_message; ?></p>
-        <?php endif; ?>
-        
-        <!-- Login form -->
-        <form action="login.php" method="POST">
-            <label for="email">Email:</label>
-            <input type="email" name="email" required><br>
-            
-            <label for="password">Password:</label>
-            <input type="password" name="password" required><br>
-            
-            <button type="submit">Login</button>
+    <?php renderHeader('login'); ?>
+
+    <main class="auth-container">
+        <form class="auth-form" action="login.php" method="POST">
+            <h2>Přihlášení</h2>
+
+            <?php if (isset($error_message)): ?>
+                <p class="error"><?= htmlspecialchars($error_message); ?></p>
+            <?php endif; ?>
+
+            <label for="email">E-mail</label>
+            <input type="email" id="email" name="email" placeholder="Zadejte e-mail" required>
+
+            <label for="password">Heslo</label>
+            <input type="password" id="password" name="password" placeholder="Zadejte heslo" required>
+
+            <button type="submit" class="btn">Přihlásit se</button>
+            <p><a href="forgot-password.php">Zapomněli jste heslo, nebo jste tu noví?</a></p>
         </form>
-        
-        <p>Zapoměli jste heslo? <a href="forgot_password.php">Nové heslo</a></p>
-    </div>
+    </main>
+
+    <?php renderFooter(); ?>
 </body>
 </html>

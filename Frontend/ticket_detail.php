@@ -81,7 +81,7 @@ $ticket = $result->fetch_assoc();
         </tr>
     </table>
 
-    <p><a href="index.php">← Zpět na seznam ticketů</a></p>
+    <p><a href="dashboard.php">← Zpět na seznam ticketů</a></p>
 
 </body>
 </html>

@@ -10,7 +10,8 @@ if (!isset($_SESSION['user'])) {
 
 <header>
     <nav>
-        <a href="index.php">Dashboard</a>
+        <a href="index.php">Domů</a>
+        <a href="dashboard.php">Dashboard</a>
         <a href="new_ticket.php">Nový ticket</a>
         <a href="tickets.php">Seznam ticketů</a>
         <a href="pridat_uzivatele.php">Přidání uživatele</a>

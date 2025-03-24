@@ -7,29 +7,31 @@ $zprava = "";
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $name = trim($_POST["name"]);
     $email = trim($_POST["email"]);
-    $heslo = $_POST["heslo"];
     $role = $_POST["role"] ?? "zak"; // Výchozí role je "zak", pokud není vybrána jiná
 
     // Ověření vstupů
-    if (empty($name) || empty($email) || empty($heslo)) {
+    if (empty($name) || empty($email)) {
         $zprava = "Všechna pole jsou povinná!";
     } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $zprava = "Neplatný e-mail!";
-    } elseif (strlen($heslo) < 6) {
-        $zprava = "Heslo musí mít alespoň 6 znaků!";
     } elseif (!in_array($role, ['ucitel', 'zak', 'it'])) {
         $zprava = "Neplatná role!";
     } else {
-        // Hashování hesla
-        $hashovane_heslo = password_hash($heslo, PASSWORD_BCRYPT);
+        // Generování 6-místného resetovacího kódu
+        $reset_code = rand(100000, 999999);
 
-        // Vložení uživatele do databáze
-        $sql = "INSERT INTO users (name, email, password, role) VALUES (?, ?, ?, ?)";
+        // Vložení uživatele do databáze (bez hesla)
+        $sql = "INSERT INTO users (name, email, role) VALUES (?, ?, ?)";
         $stmt = $conn->prepare($sql);
-        $stmt->bind_param("ssss", $name, $email, $hashovane_heslo, $role);
+        $stmt->bind_param("sss", $name, $email, $role);
 
         if ($stmt->execute()) {
-            $zprava = "Uživatel úspěšně přidán!";
+            // Uložení resetovacího kódu do databáze
+            $stmt = $conn->prepare("REPLACE INTO password_reset_codes (email, code) VALUES (?, ?)");
+            $stmt->bind_param("ss", $email, $reset_code);
+            $stmt->execute();
+            
+            $zprava = "Uživatel úspěšně přidán! Resetovací kód: " . $reset_code;
         } else {
             $zprava = "Chyba: " . $stmt->error;
         }
@@ -59,9 +61,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         <label for="email">E-mail:</label>
         <input type="email" id="email" name="email" required><br>
-
-        <label for="heslo">Heslo:</label>
-        <input type="password" id="heslo" name="heslo" required><br>
 
         <label for="role">Role:</label>
         <select id="role" name="role">
