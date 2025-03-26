@@ -38,7 +38,7 @@ $ticket = $result->fetch_assoc();
 <head>
     <meta charset="UTF-8">
     <title>Detail ticketu</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="s/style.css">
 </head>
 <body>
     <?php include 'header.php'; ?>

@@ -10,7 +10,7 @@ if (!isset($_SESSION['user'])) {
 <head>
     <meta charset="UTF-8">
     <title>Nový ticket</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="s/style.css">
 </head>
 <body>
     <?php include 'header.php'; ?>
@@ -18,6 +18,15 @@ if (!isset($_SESSION['user'])) {
     <form action="submit_ticket.php" method="post">
         <input type="text" name="subject" placeholder="Předmět" required>
         <textarea name="description" placeholder="Popis problému" required></textarea>
+
+        <!-- Výběr urgence ticketu -->
+        <label for="urgency">Urgence:</label>
+        <select name="urgency" id="urgency" required>
+            <option value="low">Nízká</option>
+            <option value="medium">Střední</option>
+            <option value="high">Vysoká</option>
+        </select>
+
         <button type="submit">Odeslat</button>
     </form>
 </body>

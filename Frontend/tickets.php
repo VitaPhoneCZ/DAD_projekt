@@ -21,7 +21,7 @@ $result = $conn->query($sql);
 <head>
     <meta charset="UTF-8">
     <title>Seznam ticketů</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="s/style.css">
 </head>
 <body>
     <?php include 'header.php'; ?>

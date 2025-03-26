@@ -47,6 +47,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Přidat uživatele</title>
+    <link rel="stylesheet" href="s/style.css">
 </head>
 <body>
     <h2>Přidání nového uživatele</h2>
