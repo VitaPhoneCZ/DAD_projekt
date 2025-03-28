@@ -8,7 +8,7 @@ if (!isset($_SESSION['user'])) {
 include 'db.php'; // Připojení k databázi
 
 // Načtení všech ticketů bez ohledu na stav
-$sql = "SELECT tickets.id, tickets.title, tickets.status, users.name 
+$sql = "SELECT tickets.id, tickets.title, tickets.status, tickets.priority, tickets.platform, tickets.created_at, users.name 
         FROM tickets 
         JOIN users ON tickets.user_id = users.id 
         ORDER BY tickets.created_at DESC";
@@ -33,7 +33,10 @@ $result = $conn->query($sql);
                 <th>#</th>
                 <th>Název</th>
                 <th>Stav</th>
+                <th>Priorita</th>
+                <th>Platforma</th>
                 <th>Vytvořil</th>
+                <th>Vytvořeno</th>
                 <th>Akce</th>
             </tr>
         </thead>
@@ -44,20 +47,23 @@ $result = $conn->query($sql);
                         <td><?= $row['id'] ?></td>
                         <td><?= htmlspecialchars($row['title']) ?></td>
                         <td>
-                            <?php if ($row['status'] === 'open'): ?>
-                                <span style="color: orange;">Otevřený</span>
+                            <?php if ($row['status'] === 'Otevřený'): ?>
+                                <span style="color: green;">Otevřený</span>
                             <?php else: ?>
-                                <span style="color: green;">Uzavřený</span>
+                                <span style="color: red;">Uzavřený</span>
                             <?php endif; ?>
                         </td>
+                        <td><?= htmlspecialchars($row['priority']) ?></td>
+                        <td><?= htmlspecialchars($row['platform']) ?></td>
                         <td><?= htmlspecialchars($row['name']) ?></td>
+                        <td><?= $row['created_at'] ?></td>
                         <td>
                             <a href="ticket_detail.php?id=<?= $row['id'] ?>">Zobrazit</a>
                         </td>
                     </tr>
                 <?php endwhile; ?>
             <?php else: ?>
-                <tr><td colspan="5">Žádné tickety k zobrazení</td></tr>
+                <tr><td colspan="8">Žádné tickety k zobrazení</td></tr>
             <?php endif; ?>
         </tbody>
     </table>

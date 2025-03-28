@@ -9,12 +9,13 @@ if (!isset($_SESSION['user'])) {
     exit();
 }
 
-// Získání otevřených ticketů
+// Získání pouze otevřených ticketů
 $sql = "SELECT tickets.id, tickets.title, tickets.status, users.name 
         FROM tickets 
         JOIN users ON tickets.user_id = users.id 
-        WHERE tickets.status = 'open' 
-        ORDER BY tickets.created_at DESC";
+        WHERE tickets.status = 'Otevřený' 
+        ORDER BY tickets.id ASC";
+
 $result = $conn->query($sql);
 ?>
 
@@ -46,7 +47,17 @@ $result = $conn->query($sql);
                         <tr>
                             <td><?= $row['id'] ?></td>
                             <td><?= htmlspecialchars($row['title']) ?></td>
-                            <td><span class="badge bg-warning"><?= $row['status'] ?></span></td>
+                            <td>
+                                <?php 
+                                    if ($row['status'] === 'Otevřený') {
+                                        echo '<span class="badge bg-warning">Otevřený</span>';
+                                    } elseif ($row['status'] === 'Uzavřený') {
+                                        echo '<span class="badge bg-success">Uzavřený</span>';
+                                    } else {
+                                        echo '<span class="badge bg-secondary">Neznámý</span>';
+                                    }
+                                ?>
+                            </td>
                             <td><?= htmlspecialchars($row['name']) ?></td>
                             <td><a href="ticket_detail.php?id=<?= $row['id'] ?>" class="btn btn-info btn-sm">Zobrazit</a></td>
                         </tr>

@@ -12,7 +12,8 @@ $jmeno = $_SESSION['user'];
 $role = $_SESSION['role'];
 
 // Nastavení profilového obrázku
-$profilovy_obrazek = ($role === 'it') ? 'photo/it-pfp.jpg' : 'photo/default.jpg';
+$profilovy_obrazek = ($role === 'it') ? 'photo/it-pfp.jpg' : (($role === 'ucitel') ? 'photo/ucitel.jpg' : (($role === 'zak') ? 'photo/zak.jpg' : 'photo/default.png'));
+
 ?>
 
 <header style="display: flex; justify-content: space-between; align-items: center; padding: 10px; background: #333; color: white;">
@@ -29,7 +30,7 @@ $profilovy_obrazek = ($role === 'it') ? 'photo/it-pfp.jpg' : 'photo/default.jpg'
     
     <!-- Zobrazení jména a profilového obrázku -->
     <div style="display: flex; align-items: center;">
-        <img src="<?= htmlspecialchars($profilovy_obrazek) ?>" alt="Profilový obrázek" style="width: 40px; height: 40px; border-radius: 50%; margin-right: 10px;">
+    <a href="muj-ucet.php"><img src="<?= htmlspecialchars($profilovy_obrazek) ?>" alt="Profilový obrázek" style="width: 40px; height: 40px; border-radius: 50%; margin-right: 10px;"></a>
         <a href="muj-ucet.php" style="color: white; text-decoration: none; font-weight: bold;"><?php echo htmlspecialchars($jmeno); ?></a>
     </div>
 </header>

@@ -15,7 +15,7 @@ if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
 $ticket_id = intval($_GET['id']); // Ochrana proti SQL injection
 
 // Dotaz na konkrétní ticket
-$sql = "SELECT tickets.id, tickets.title, tickets.description, tickets.status, tickets.created_at, tickets.updated_at, users.name 
+$sql = "SELECT tickets.id, tickets.title, tickets.description, tickets.status, tickets.created_at, users.name 
         FROM tickets 
         JOIN users ON tickets.user_id = users.id 
         WHERE tickets.id = ?";
@@ -60,10 +60,10 @@ $ticket = $result->fetch_assoc();
         <tr>
             <th>Stav</th>
             <td>
-                <?php if ($ticket['status'] === 'open'): ?>
-                    <span style="color: orange;">Otevřený</span>
+                <?php if ($ticket['status'] === 'Otevřený'): ?>
+                    <span style="color: green;">Otevřený</span>
                 <?php else: ?>
-                    <span style="color: green;">Uzavřený</span>
+                    <span style="color: red;">Uzavřený</span>
                 <?php endif; ?>
             </td>
         </tr>
@@ -75,13 +75,10 @@ $ticket = $result->fetch_assoc();
             <th>Vytvořeno</th>
             <td><?= $ticket['created_at'] ?></td>
         </tr>
-        <tr>
-            <th>Naposledy upraveno</th>
-            <td><?= $ticket['updated_at'] ?></td>
-        </tr>
     </table>
 
-    <p><a href="dashboard.php">← Zpět na seznam ticketů</a></p>
+    <!-- Dynamické tlačítko "Zpět" podle stavu ticketu -->
+    <p><a href="<?= ($ticket['status'] === 'Otevřený') ? 'dashboard.php' : 'tickets.php' ?>">← Zpět na seznam</a></p>
 
 </body>
 </html>

@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Mar 24, 2025 at 04:21 PM
--- Server version: 10.4.32-MariaDB
--- PHP Version: 8.2.12
+-- Počítač: 127.0.0.1
+-- Vytvořeno: Pát 28. bře 2025, 11:33
+-- Verze serveru: 10.4.32-MariaDB
+-- Verze PHP: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,13 +18,13 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `dad_db`
+-- Databáze: `dad_db`
 --
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `password_reset_codes`
+-- Struktura tabulky `password_reset_codes`
 --
 
 CREATE TABLE `password_reset_codes` (
@@ -35,7 +35,7 @@ CREATE TABLE `password_reset_codes` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tickets`
+-- Struktura tabulky `tickets`
 --
 
 CREATE TABLE `tickets` (
@@ -43,40 +43,26 @@ CREATE TABLE `tickets` (
   `user_id` int(11) NOT NULL,
   `title` varchar(255) NOT NULL,
   `description` text NOT NULL,
-  `status` enum('open','in_progress','closed') DEFAULT 'open',
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_czech_ci;
+  `status` enum('Otevřený','Uzavřený') DEFAULT 'Otevřený',
+  `priority` enum('Nízká','Střední','Vysoká') NOT NULL,
+  `platform` enum('Windows','Mac','Linux','Android','iPhone') NOT NULL,
+  `created_at` datetime NOT NULL,
+  `closed_at` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `tickets`
+-- Vypisuji data pro tabulku `tickets`
 --
 
-INSERT INTO `tickets` (`id`, `user_id`, `title`, `description`, `status`, `created_at`, `updated_at`) VALUES
-(101, 3, 'Problém s přihlášením', 'Uživatel se nemůže přihlásit do systému, hlásí nesprávné heslo.', 'open', '2025-03-20 09:15:00', '2025-03-20 09:15:00'),
-(102, 5, 'Chyba při odesílání formuláře', 'Formulář se neodesílá, zobrazuje chybu 500.', 'open', '2025-03-19 13:30:00', '2025-03-19 13:30:00'),
-(103, 2, 'Požadavek na reset hesla', 'Uživatel požaduje reset hesla, protože zapomněl staré.', 'open', '2025-03-18 07:45:00', '2025-03-18 07:45:00'),
-(104, 4, 'Nezobrazují se notifikace', 'Systém neposílá upozornění na nové zprávy.', 'open', '2025-03-17 15:10:00', '2025-03-17 15:10:00'),
-(105, 6, 'Špatné zobrazení stránky v Edge', 'Webová stránka se v prohlížeči Edge rozpadá.', 'open', '2025-03-16 08:25:00', '2025-03-16 08:25:00');
+INSERT INTO `tickets` (`id`, `user_id`, `title`, `description`, `status`, `priority`, `platform`, `created_at`, `closed_at`) VALUES
+(1, 1, 'test', 'testtt', 'Otevřený', 'Střední', 'Linux', '2025-03-28 10:53:10', NULL),
+(2, 1, 'test2', 'omgpomoc', 'Uzavřený', 'Vysoká', 'Mac', '2025-03-28 11:10:59', NULL),
+(3, 2, 'amognus', 'simon je gej', 'Otevřený', 'Vysoká', 'iPhone', '2025-03-28 11:22:58', NULL);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `ticket_comments`
---
-
-CREATE TABLE `ticket_comments` (
-  `id` int(11) NOT NULL,
-  `ticket_id` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL,
-  `comment` text NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_czech_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `users`
+-- Struktura tabulky `users`
 --
 
 CREATE TABLE `users` (
@@ -89,7 +75,7 @@ CREATE TABLE `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_czech_ci;
 
 --
--- Dumping data for table `users`
+-- Vypisuji data pro tabulku `users`
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `role`, `created_at`, `password`) VALUES
@@ -104,75 +90,54 @@ INSERT INTO `users` (`id`, `name`, `email`, `role`, `created_at`, `password`) VA
 (10, 'Anonym2000', 'Honza@gmail.com', 'zak', '2025-03-24 15:10:56', '$2y$10$/3UAbL7xQmdah5x497rd1O24nrdvTjwGCVr734ks56qDPkaUHhIn2');
 
 --
--- Indexes for dumped tables
+-- Indexy pro exportované tabulky
 --
 
 --
--- Indexes for table `password_reset_codes`
+-- Indexy pro tabulku `password_reset_codes`
 --
 ALTER TABLE `password_reset_codes`
   ADD PRIMARY KEY (`email`);
 
 --
--- Indexes for table `tickets`
+-- Indexy pro tabulku `tickets`
 --
 ALTER TABLE `tickets`
   ADD PRIMARY KEY (`id`),
   ADD KEY `user_id` (`user_id`);
 
 --
--- Indexes for table `ticket_comments`
---
-ALTER TABLE `ticket_comments`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `ticket_id` (`ticket_id`),
-  ADD KEY `user_id` (`user_id`);
-
---
--- Indexes for table `users`
+-- Indexy pro tabulku `users`
 --
 ALTER TABLE `users`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `email` (`email`);
 
 --
--- AUTO_INCREMENT for dumped tables
+-- AUTO_INCREMENT pro tabulky
 --
 
 --
--- AUTO_INCREMENT for table `tickets`
+-- AUTO_INCREMENT pro tabulku `tickets`
 --
 ALTER TABLE `tickets`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=106;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- AUTO_INCREMENT for table `ticket_comments`
---
-ALTER TABLE `ticket_comments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `users`
+-- AUTO_INCREMENT pro tabulku `users`
 --
 ALTER TABLE `users`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
--- Constraints for dumped tables
+-- Omezení pro exportované tabulky
 --
 
 --
--- Constraints for table `tickets`
+-- Omezení pro tabulku `tickets`
 --
 ALTER TABLE `tickets`
   ADD CONSTRAINT `tickets_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
-
---
--- Constraints for table `ticket_comments`
---
-ALTER TABLE `ticket_comments`
-  ADD CONSTRAINT `ticket_comments_ibfk_1` FOREIGN KEY (`ticket_id`) REFERENCES `tickets` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `ticket_comments_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
