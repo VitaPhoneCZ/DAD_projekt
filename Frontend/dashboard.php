@@ -4,19 +4,38 @@ include 'db.php';
 include 'header.php'; // Zahrnutí headeru a kontroly session
 
 // Zkontroluj, jestli je uživatel přihlášen
-if (!isset($_SESSION['user'])) {
+if (!isset($_SESSION['user']) || !isset($_SESSION['role'])) {
     header('Location: login.php');
     exit();
 }
 
-// Získání pouze otevřených ticketů
-$sql = "SELECT tickets.id, tickets.title, tickets.status, users.name 
-        FROM tickets 
-        JOIN users ON tickets.user_id = users.id 
-        WHERE tickets.status = 'Otevřený' 
-        ORDER BY tickets.id ASC";
+$jmeno = $_SESSION['user'];
+$role = $_SESSION['role'];
+$user_id = $_SESSION['user_id']; // Předpokládám, že máš uložené ID přihlášeného uživatele
 
-$result = $conn->query($sql);
+// SQL dotaz podle role uživatele
+if ($role === 'it') {
+    $sql = "SELECT tickets.id, tickets.title, tickets.status, users.name 
+            FROM tickets 
+            JOIN users ON tickets.user_id = users.id 
+            WHERE tickets.status = 'Otevřený' 
+            ORDER BY tickets.id ASC";
+} else {
+    $sql = "SELECT tickets.id, tickets.title, tickets.status, users.name 
+            FROM tickets 
+            JOIN users ON tickets.user_id = users.id 
+            WHERE tickets.status = 'Otevřený' AND tickets.user_id = ?
+            ORDER BY tickets.id ASC";
+}
+
+$stmt = $conn->prepare($sql);
+
+if ($role !== 'it') {
+    $stmt->bind_param("i", $user_id);
+}
+
+$stmt->execute();
+$result = $stmt->get_result();
 ?>
 
 <!DOCTYPE html>

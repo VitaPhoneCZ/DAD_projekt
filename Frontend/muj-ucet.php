@@ -12,7 +12,7 @@ $email = isset($_SESSION['email']) ? $_SESSION['email'] : "Neznámý email";
 $role = isset($_SESSION['role']) ? $_SESSION['role'] : "Neznámá role";
 
 // Nastavení profilového obrázku podle role
-$profilovy_obrazek = ($role === 'it') ? 'photo/it-pfp.jpg' : 'photo/default.jpg';
+$profilovy_obrazek = ($role === 'it') ? 'photo/it-pfp.jpg' : (($role === 'ucitel') ? 'photo/ucitel.jpg' : (($role === 'zak') ? 'photo/zak.jpg' : 'photo/default.png'));
 ?>
 
 <!DOCTYPE html>

@@ -1,19 +1,35 @@
 <?php
 session_start();
-if (!isset($_SESSION['user'])) {
+if (!isset($_SESSION['user']) || !isset($_SESSION['role'])) {
     header('Location: login.php');
     exit();
 }
 
 include 'db.php'; // Připojení k databázi
 
-// Načtení všech ticketů bez ohledu na stav
-$sql = "SELECT tickets.id, tickets.title, tickets.status, tickets.priority, tickets.platform, tickets.created_at, users.name 
-        FROM tickets 
-        JOIN users ON tickets.user_id = users.id 
-        ORDER BY tickets.created_at DESC";
+$jmeno = $_SESSION['user'];
+$role = $_SESSION['role'];
+$user_id = $_SESSION['user_id']; // Předpokládám, že máš uložené ID přihlášeného uživatele
 
-$result = $conn->query($sql);
+// SQL dotaz podle role uživatele
+if ($role === 'it') {
+    $sql = "SELECT tickets.id, tickets.title, tickets.status, tickets.priority, tickets.platform, tickets.created_at, users.name 
+            FROM tickets 
+            JOIN users ON tickets.user_id = users.id 
+            ORDER BY tickets.created_at DESC";
+    $stmt = $conn->prepare($sql);
+} else {
+    $sql = "SELECT tickets.id, tickets.title, tickets.status, tickets.priority, tickets.platform, tickets.created_at, users.name 
+            FROM tickets 
+            JOIN users ON tickets.user_id = users.id 
+            WHERE tickets.user_id = ?
+            ORDER BY tickets.created_at DESC";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("i", $user_id);
+}
+
+$stmt->execute();
+$result = $stmt->get_result();
 ?>
 
 <!DOCTYPE html>

@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Počítač: 127.0.0.1
--- Vytvořeno: Pát 28. bře 2025, 11:33
--- Verze serveru: 10.4.32-MariaDB
--- Verze PHP: 8.2.12
+-- Host: 127.0.0.1
+-- Generation Time: Mar 28, 2025 at 05:48 PM
+-- Server version: 10.4.32-MariaDB
+-- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,13 +18,13 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Databáze: `dad_db`
+-- Database: `dad_db`
 --
 
 -- --------------------------------------------------------
 
 --
--- Struktura tabulky `password_reset_codes`
+-- Table structure for table `password_reset_codes`
 --
 
 CREATE TABLE `password_reset_codes` (
@@ -35,7 +35,7 @@ CREATE TABLE `password_reset_codes` (
 -- --------------------------------------------------------
 
 --
--- Struktura tabulky `tickets`
+-- Table structure for table `tickets`
 --
 
 CREATE TABLE `tickets` (
@@ -51,18 +51,45 @@ CREATE TABLE `tickets` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Vypisuji data pro tabulku `tickets`
+-- Dumping data for table `tickets`
 --
 
 INSERT INTO `tickets` (`id`, `user_id`, `title`, `description`, `status`, `priority`, `platform`, `created_at`, `closed_at`) VALUES
-(1, 1, 'test', 'testtt', 'Otevřený', 'Střední', 'Linux', '2025-03-28 10:53:10', NULL),
-(2, 1, 'test2', 'omgpomoc', 'Uzavřený', 'Vysoká', 'Mac', '2025-03-28 11:10:59', NULL),
-(3, 2, 'amognus', 'simon je gej', 'Otevřený', 'Vysoká', 'iPhone', '2025-03-28 11:22:58', NULL);
+(1, 1, 'test', 'testtt', 'Uzavřený', 'Střední', 'Linux', '2025-03-28 10:53:10', '2025-03-28 17:24:51'),
+(2, 1, 'test2', 'omgpomoc', 'Uzavřený', 'Vysoká', 'Mac', '2025-03-28 11:10:59', '2025-03-28 15:38:30'),
+(3, 2, 'amognus', 'simon je gej', 'Otevřený', 'Vysoká', 'iPhone', '2025-03-28 11:22:58', NULL),
+(4, 4, 'test test1', 'tady neni problem', 'Uzavřený', 'Nízká', 'Android', '2025-03-28 16:34:28', '2025-03-28 17:15:58');
 
 -- --------------------------------------------------------
 
 --
--- Struktura tabulky `users`
+-- Table structure for table `ticket_replies`
+--
+
+CREATE TABLE `ticket_replies` (
+  `id` int(11) NOT NULL,
+  `ticket_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `message` text NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `ticket_replies`
+--
+
+INSERT INTO `ticket_replies` (`id`, `ticket_id`, `user_id`, `message`, `created_at`) VALUES
+(1, 4, 1, 'Test 1 od Admina', '2025-03-28 16:12:30'),
+(2, 4, 4, 'Test 2 od uakladatele', '2025-03-28 16:12:52'),
+(3, 4, 1, '?', '2025-03-28 16:19:12'),
+(4, 1, 1, 'zdar xd', '2025-03-28 16:24:42'),
+(5, 1, 1, 'muj vlastni ticket', '2025-03-28 16:24:49'),
+(6, 1, 1, 'Ticket byl uzavřen uživatelem ', '2025-03-28 16:24:51');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `users`
 --
 
 CREATE TABLE `users` (
@@ -75,7 +102,7 @@ CREATE TABLE `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_czech_ci;
 
 --
--- Vypisuji data pro tabulku `users`
+-- Dumping data for table `users`
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `role`, `created_at`, `password`) VALUES
@@ -90,54 +117,75 @@ INSERT INTO `users` (`id`, `name`, `email`, `role`, `created_at`, `password`) VA
 (10, 'Anonym2000', 'Honza@gmail.com', 'zak', '2025-03-24 15:10:56', '$2y$10$/3UAbL7xQmdah5x497rd1O24nrdvTjwGCVr734ks56qDPkaUHhIn2');
 
 --
--- Indexy pro exportované tabulky
+-- Indexes for dumped tables
 --
 
 --
--- Indexy pro tabulku `password_reset_codes`
+-- Indexes for table `password_reset_codes`
 --
 ALTER TABLE `password_reset_codes`
   ADD PRIMARY KEY (`email`);
 
 --
--- Indexy pro tabulku `tickets`
+-- Indexes for table `tickets`
 --
 ALTER TABLE `tickets`
   ADD PRIMARY KEY (`id`),
   ADD KEY `user_id` (`user_id`);
 
 --
--- Indexy pro tabulku `users`
+-- Indexes for table `ticket_replies`
+--
+ALTER TABLE `ticket_replies`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `ticket_id` (`ticket_id`),
+  ADD KEY `user_id` (`user_id`);
+
+--
+-- Indexes for table `users`
 --
 ALTER TABLE `users`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `email` (`email`);
 
 --
--- AUTO_INCREMENT pro tabulky
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT pro tabulku `tickets`
+-- AUTO_INCREMENT for table `tickets`
 --
 ALTER TABLE `tickets`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
--- AUTO_INCREMENT pro tabulku `users`
+-- AUTO_INCREMENT for table `ticket_replies`
+--
+ALTER TABLE `ticket_replies`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
--- Omezení pro exportované tabulky
+-- Constraints for dumped tables
 --
 
 --
--- Omezení pro tabulku `tickets`
+-- Constraints for table `tickets`
 --
 ALTER TABLE `tickets`
   ADD CONSTRAINT `tickets_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `ticket_replies`
+--
+ALTER TABLE `ticket_replies`
+  ADD CONSTRAINT `ticket_replies_ibfk_1` FOREIGN KEY (`ticket_id`) REFERENCES `tickets` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `ticket_replies_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
