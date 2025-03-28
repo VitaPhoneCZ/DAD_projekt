@@ -12,7 +12,7 @@
 ---
 
 ## 🌟 O aplikaci
-**Send&Solve** je ticketovací nástroj pro efektivní správu IT požadavků ve škole. Zaměstnanci mohou jednoduše nahlásit problém a IT tým se o něj postará.
+**Send&Solve** je ticketovací nástroj pro efektivní správu IT požadavků. Zaměstnanci mohou jednoduše nahlásit problém a IT tým se o něj postará. Tento nástroj bude obsahovat dvě hlavní části: frontend vyvinutý v PHP a backend v Node.js s Express.js.
 
 ### 🛠️ Funkcionality
 - **Vytváření ticketů** - Uživatelé mohou zadávat nové tickety s popisem problému.
@@ -20,6 +20,7 @@
 - **Notifikace** - Upozornění při změně stavu nebo přiřazení ticketu.
 - **Historie a sledování** - Uchování změn a průběhu řešení ticketu.
 - **Vyhledávání a filtrování** - Možnost filtrovat tickety podle různých kritérií.
+- **Autentizace přes e-mail** - Uživatelé se přihlásí pomocí svého e-mailu, což umožňuje bezpečný přístup.
 
 ### 👤 Cílová skupina
 Všichni zaměstnanci školy s e-mailovou doménou **souepl.cz** a IT pracovníci.
@@ -27,7 +28,7 @@ Všichni zaměstnanci školy s e-mailovou doménou **souepl.cz** a IT pracovníc
 ---
 
 ## 🛡️ Integrace (Nice to have)
-- **Email** - Automatické vytváření ticketů z emailů.
+- **Email** - Automatické vytváření ticketů z e-mailů.
 - **Kalendář** - Plánování a sledování termínů ticketů.
 
 ---
@@ -41,7 +42,9 @@ Všichni zaměstnanci školy s e-mailovou doménou **souepl.cz** a IT pracovníc
 
 ## 💻 Technické požadavky
 - **Platforma** - Webová aplikace.
-- **Bezpečnost** - Ochrana osobních údajů.
+- **Backend** - Node.js s Express.js.
+- **Frontend** - PHP.
+- **Bezpečnost** - Ochrana osobních údajů, autentizace pomocí e-mailu.
 - **Škálovatelnost** - Možnost růstu počtu uživatelů.
 
 ---
@@ -64,10 +67,4 @@ Všichni zaměstnanci školy s e-mailovou doménou **souepl.cz** a IT pracovníc
 
 ---
 
-## 🔧 Jak přispět?
-Chcete přispět k vývoji? Udělejte **fork**, vytvořte **pull request** nebo nám napište!
-
----
-
-**⚡ Problem Fixers - Fixujeme problémy, ne lidí!**
-
+**⚡ Problem Fixers - Fixujeme problémy, ne lidi!**
