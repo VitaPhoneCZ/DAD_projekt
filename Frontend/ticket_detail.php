@@ -38,15 +38,64 @@ if ($role !== 'it' && $ticket['owner_id'] != $user_id) {
     die('Nemáte oprávnění zobrazit tento ticket.');
 }
 
+// Označení notifikace jako přečtené pro tohoto uživatele
+$sql_update_read = "UPDATE unread_notifications
+                    SET read_by = CONCAT_WS(',', 
+                        IF(read_by IS NULL OR read_by = '', '', read_by), 
+                        ?
+                    )
+                    WHERE ticket_id = ? 
+                    AND (read_by IS NULL OR NOT FIND_IN_SET(?, read_by))";
+
+$stmt_update_read = $conn->prepare($sql_update_read);
+$stmt_update_read->bind_param("iis", $user_id, $ticket_id, $user_id);
+$stmt_update_read->execute();
+
+
+// Zpracování zprávy (PHP část)
 // Zpracování zprávy (PHP část)
 if (isset($_POST['submit_message'])) {
     $message = trim($_POST['message']);
     if (!empty($message)) {
+        // Vložení zprávy do ticket_replies
         $sql = "INSERT INTO ticket_replies (ticket_id, user_id, message) VALUES (?, ?, ?)";
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("iis", $ticket_id, $user_id, $message);
         if ($stmt->execute()) {
-            // Po úspěšném vložení zprávy přesměruj zpět na tuto stránku, aby se zpráva zobrazila
+
+            // Vybereme všechny uživatele, kteří kdy komunikovali v tomto ticketu (kromě autora zprávy)
+            $sql_users = "SELECT DISTINCT user_id FROM ticket_replies WHERE ticket_id = ? AND user_id != ?";
+            $stmt_users = $conn->prepare($sql_users);
+            $stmt_users->bind_param("ii", $ticket_id, $user_id);
+            $stmt_users->execute();
+            $result_users = $stmt_users->get_result();
+
+            // Uložíme ID uživatelů, kterým se má vytvořit notifikace
+            $notifikovat = [];
+
+            while ($row = $result_users->fetch_assoc()) {
+                $notifikovat[] = $row['user_id'];
+            }
+
+            // Přidáme i autora ticketu, pokud není ten, kdo právě píše
+            if ($ticket['owner_id'] != $user_id && !in_array($ticket['owner_id'], $notifikovat)) {
+                $notifikovat[] = $ticket['owner_id'];
+            }
+
+            foreach ($notifikovat as $target_id) {
+                // Vložení nebo aktualizace notifikace
+                $sql_notification = "INSERT INTO unread_notifications (ticket_id, user_id, notification_count, read_by)
+                VALUES (?, ?, 1, NULL)
+                ON DUPLICATE KEY UPDATE 
+                    notification_count = notification_count + 1,
+                    read_by = NULL";
+
+                $stmt_notification = $conn->prepare($sql_notification);
+                $stmt_notification->bind_param("ii", $ticket_id, $target_id);
+                $stmt_notification->execute();
+            }
+
+            // Přesměrování zpět
             header("Location: ticket_detail.php?id=" . $ticket_id);
             exit();
         } else {
@@ -56,6 +105,10 @@ if (isset($_POST['submit_message'])) {
         echo "Zpráva nesmí být prázdná.";
     }
 }
+
+
+
+
 
 // Uzavření ticketu (pokud tlačítko bylo stisknuto)
 if (isset($_POST['close_ticket'])) {
@@ -86,6 +139,7 @@ if (isset($_POST['close_ticket'])) {
 
 <!DOCTYPE html>
 <html lang="cs">
+
 <head>
     <meta charset="UTF-8">
     <title>Detail ticketu</title>
@@ -97,6 +151,7 @@ if (isset($_POST['close_ticket'])) {
         }
     </script>
 </head>
+
 <body>
     <?php include 'header.php'; ?>
 
@@ -135,10 +190,10 @@ if (isset($_POST['close_ticket'])) {
 
         <!-- Zobrazení closed_at pouze pokud je ticket uzavřený -->
         <?php if ($ticket['status'] === 'Uzavřený' && !empty($ticket['closed_at'])): ?>
-        <tr>
-            <th>Uzavřeno</th>
-            <td><?= $ticket['closed_at'] ?></td>
-        </tr>
+            <tr>
+                <th>Uzavřeno</th>
+                <td><?= $ticket['closed_at'] ?></td>
+            </tr>
         <?php endif; ?>
     </table>
 
@@ -182,4 +237,5 @@ if (isset($_POST['close_ticket'])) {
     }
     ?>
 </body>
+
 </html>

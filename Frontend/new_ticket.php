@@ -30,14 +30,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $user_id = $_SESSION['user_id'];
     $stmt->bind_param("issss", $user_id, $title, $description, $priority, $platform);
 
-    // Provedení dotazu
     if ($stmt->execute()) {
         echo "Ticket byl úspěšně vytvořen!";
     } else {
         echo "Došlo k chybě při vytváření ticketu: " . $stmt->error;
     }
 
-    // Uzavření spojení
     $stmt->close();
     $conn->close();
 }
