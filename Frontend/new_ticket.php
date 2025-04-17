@@ -26,13 +26,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $sql = "INSERT INTO tickets (user_id, title, description, priority, platform, created_at) VALUES (?, ?, ?, ?, ?, NOW())";
     $stmt = $conn->prepare($sql);
 
-    // Zajištění, že user_id je z session
     $user_id = $_SESSION['user_id'];
     $stmt->bind_param("issss", $user_id, $title, $description, $priority, $platform);
 
     if ($stmt->execute()) {
+        // Získání ID nového ticketu
+        $ticket_id = $stmt->insert_id;
+    
+        // Vložení do tabulky unread_notifications
+        $notification_sql = "INSERT INTO unread_notifications (ticket_id, user_id, notification_count, read_by) VALUES (?, ?, ?, ?)";
+        $notification_stmt = $conn->prepare($notification_sql);
+    
+        $notification_count = 1;
+        $read_by = strval($user_id); // autor bude rovnou uveden jako že už si to přečetl
+    
+        $notification_stmt->bind_param("iiis", $ticket_id, $user_id, $notification_count, $read_by);
+        $notification_stmt->execute();
+        $notification_stmt->close();
+    
         echo "Ticket byl úspěšně vytvořen!";
-    } else {
+    }
+    else {
         echo "Došlo k chybě při vytváření ticketu: " . $stmt->error;
     }
 
@@ -40,6 +54,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $conn->close();
 }
 ?>
+
 
 <!DOCTYPE html>
 <html lang="cs">

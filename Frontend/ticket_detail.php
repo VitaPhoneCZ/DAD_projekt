@@ -61,10 +61,13 @@ if (isset($_POST['submit_message'])) {
         $sql = "INSERT INTO ticket_replies (ticket_id, user_id, message) VALUES (?, ?, ?)";
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("iis", $ticket_id, $user_id, $message);
+        // Po úspěšném vložení odpovědi do ticketu
+        // Po úspěšném vložení odpovědi do ticketu
         if ($stmt->execute()) {
 
             // Vybereme všechny uživatele, kteří kdy komunikovali v tomto ticketu (kromě autora zprávy)
             $sql_users = "SELECT DISTINCT user_id FROM ticket_replies WHERE ticket_id = ? AND user_id != ?";
+            echo "<p>SQL pro uživatele: $sql_users</p>";  // Debug: Zobrazení SQL dotazu pro uživatele
             $stmt_users = $conn->prepare($sql_users);
             $stmt_users->bind_param("ii", $ticket_id, $user_id);
             $stmt_users->execute();
@@ -72,35 +75,47 @@ if (isset($_POST['submit_message'])) {
 
             // Uložíme ID uživatelů, kterým se má vytvořit notifikace
             $notifikovat = [];
+            echo "<p>Uživatelé pro ticket $ticket_id (kromě autora $user_id):</p>";
 
             while ($row = $result_users->fetch_assoc()) {
+                echo "<p>User ID: " . $row['user_id'] . "</p>";  // Debug: Zobrazení každého uživatele
                 $notifikovat[] = $row['user_id'];
             }
 
             // Přidáme i autora ticketu, pokud není ten, kdo právě píše
             if ($ticket['owner_id'] != $user_id && !in_array($ticket['owner_id'], $notifikovat)) {
+                echo "<p>Přidávám autora ticketu: " . $ticket['owner_id'] . "</p>";  // Debug: Pokud se přidává autor
                 $notifikovat[] = $ticket['owner_id'];
             }
 
-            foreach ($notifikovat as $target_id) {
-                // Vložení nebo aktualizace notifikace
-                $sql_notification = "INSERT INTO unread_notifications (ticket_id, user_id, notification_count, read_by)
-                VALUES (?, ?, 1, NULL)
-                ON DUPLICATE KEY UPDATE 
-                    notification_count = notification_count + 1,
-                    read_by = NULL";
+            echo "<p>Notifikovat následující uživatele: " . implode(", ", $notifikovat) . "</p>";  // Debug: Zobrazení seznamu uživatelů, kteří dostanou notifikaci
 
-                $stmt_notification = $conn->prepare($sql_notification);
+            foreach ($notifikovat as $target_id) {
+                // Vložení nebo aktualizace notifikace do tabulky unread_notifications
+                $notification_sql = "INSERT INTO unread_notifications (ticket_id, user_id, notification_count, read_by)
+        VALUES (?, ?, 1, NULL)
+        ON DUPLICATE KEY UPDATE 
+            notification_count = notification_count + 1,
+            read_by = NULL";
+
+                echo "<p>SQL pro vložení notifikace pro user ID $target_id: $notification_sql</p>";  // Debug: SQL pro vložení notifikace
+                $stmt_notification = $conn->prepare($notification_sql);
                 $stmt_notification->bind_param("ii", $ticket_id, $target_id);
-                $stmt_notification->execute();
+                if ($stmt_notification->execute()) {
+                    echo "<p>Notifikace úspěšně vložena pro uživatele $target_id</p>";  // Debug: Potvrzení úspěchu
+                } else {
+                    echo "<p>Chyba při vkládání notifikace pro uživatele $target_id</p>";  // Debug: Chyba při vkládání notifikace
+                }
             }
 
-            // Přesměrování zpět
-            header("Location: ticket_detail.php?id=" . $ticket_id);
+            // Přesměrování zpět na detail ticketu po úspěšném odeslání zprávy
+            //header("Location: ticket_detail.php?id=" . $ticket_id);
             exit();
         } else {
             echo "Chyba při odesílání zprávy.";
         }
+
+
     } else {
         echo "Zpráva nesmí být prázdná.";
     }

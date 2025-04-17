@@ -87,11 +87,13 @@ $unread_count = $unread_notifications['unread_count'];
                         <?php
                         // Dotaz na nepřečtené notifikace pro konkrétní ticket a uživatele
                         $sql_ticket_notification = "SELECT COUNT(*) as unread_count 
-                                    FROM unread_notifications 
-                                    WHERE ticket_id = ? AND (read_by IS NULL OR read_by NOT LIKE CONCAT('%,', ?, ',%'))";
+                            FROM unread_notifications 
+                            WHERE ticket_id = ? AND (read_by IS NULL OR read_by NOT REGEXP CONCAT('(^|,)', ?, '($|,)'))";
+
                         $stmt_ticket_notification = $conn->prepare($sql_ticket_notification);
                         $user_check = $user_id;
                         $stmt_ticket_notification->bind_param("is", $row['id'], $user_check);
+
                         $stmt_ticket_notification->execute();
                         $ticket_notif_result = $stmt_ticket_notification->get_result();
                         $ticket_unread = $ticket_notif_result->fetch_assoc();
