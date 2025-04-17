@@ -26,35 +26,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $sql = "INSERT INTO tickets (user_id, title, description, priority, platform, created_at) VALUES (?, ?, ?, ?, ?, NOW())";
     $stmt = $conn->prepare($sql);
 
+    // Zajištění, že user_id je z session
     $user_id = $_SESSION['user_id'];
     $stmt->bind_param("issss", $user_id, $title, $description, $priority, $platform);
 
+    // Provedení dotazu
     if ($stmt->execute()) {
-        // Získání ID nového ticketu
-        $ticket_id = $stmt->insert_id;
-    
-        // Vložení do tabulky unread_notifications
-        $notification_sql = "INSERT INTO unread_notifications (ticket_id, user_id, notification_count, read_by) VALUES (?, ?, ?, ?)";
-        $notification_stmt = $conn->prepare($notification_sql);
-    
-        $notification_count = 1;
-        $read_by = strval($user_id); // autor bude rovnou uveden jako že už si to přečetl
-    
-        $notification_stmt->bind_param("iiis", $ticket_id, $user_id, $notification_count, $read_by);
-        $notification_stmt->execute();
-        $notification_stmt->close();
-    
         echo "Ticket byl úspěšně vytvořen!";
-    }
-    else {
+    } else {
         echo "Došlo k chybě při vytváření ticketu: " . $stmt->error;
     }
 
+    // Uzavření spojení
     $stmt->close();
     $conn->close();
 }
 ?>
-
 
 <!DOCTYPE html>
 <html lang="cs">
@@ -62,39 +49,52 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vytvořit nový ticket</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="s/style.css">
 </head>
-<body>
+<body style="background-color: #f8f9fa; color: #333; font-family: 'Segoe UI', sans-serif;">
 
 <?php include 'header.php'; ?>
 
-<div class="container">
-    <h2>Vytvořit nový ticket</h2>
-    <form action="new_ticket.php" method="POST">
-        <label for="title">Název ticketu</label>
-        <input type="text" id="title" name="title" required>
+<div class="container py-5">
+    <div class="card shadow-lg border-0 rounded-4 mx-auto" style="max-width: 600px;">
+        <div class="card-body p-5">
+            <h2 class="mb-4 text-primary text-center">Vytvořit nový ticket</h2>
+            <form action="new_ticket.php" method="POST">
+                <div class="mb-3">
+                    <label for="title" class="form-label">Název ticketu</label>
+                    <input type="text" id="title" name="title" class="form-control rounded-pill px-3 py-2" required>
+                </div>
 
-        <label for="description">Popis ticketu</label>
-        <textarea id="description" name="description" required></textarea>
+                <div class="mb-3">
+                    <label for="description" class="form-label">Popis ticketu</label>
+                    <textarea id="description" name="description" class="form-control rounded-4 px-3 py-2" rows="5" required></textarea>
+                </div>
 
-        <label for="priority">Priorita</label>
-        <select id="priority" name="priority" required>
-            <option value="Nízká">Nízká</option>
-            <option value="Střední">Střední</option>
-            <option value="Vysoká">Vysoká</option>
-        </select>
+                <div class="mb-3">
+                    <label for="priority" class="form-label">Priorita</label>
+                    <select id="priority" name="priority" class="form-select rounded-pill px-3 py-2" required>
+                        <option value="Nízká">Nízká</option>
+                        <option value="Střední">Střední</option>
+                        <option value="Vysoká">Vysoká</option>
+                    </select>
+                </div>
 
-        <label for="platform">Platforma</label>
-        <select id="platform" name="platform" required>
-            <option value="Windows">Windows</option>
-            <option value="Mac">Mac</option>
-            <option value="Linux">Linux</option>
-            <option value="Android">Android</option>
-            <option value="iPhone">iPhone</option>
-        </select>
+                <div class="mb-4">
+                    <label for="platform" class="form-label">Platforma</label>
+                    <select id="platform" name="platform" class="form-select rounded-pill px-3 py-2" required>
+                        <option value="Windows">Windows</option>
+                        <option value="Mac">Mac</option>
+                        <option value="Linux">Linux</option>
+                        <option value="Android">Android</option>
+                        <option value="iPhone">iPhone</option>
+                    </select>
+                </div>
 
-        <button type="submit">Vytvořit ticket</button>
-    </form>
+                <button type="submit" class="btn btn-primary w-100 rounded-pill py-2">Vytvořit ticket</button>
+            </form>
+        </div>
+    </div>
 </div>
 
 </body>

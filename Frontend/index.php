@@ -16,19 +16,35 @@
     <?php renderHeader('index'); ?>
     <main>
 
-        <section class="hero">
-            <div class="overlay">
-                <div class="hero-text">
-                    <h1>Send&Solve</h1>
-                    <p>Ticketovací nástroj</p>
-                </div>
-                <a href="login.php" class="btn-main">
-                    Přihlášení
-                    <i class="fas fa-arrow-right"></i>
-                </a>
-            </div>
-            <img src="/photo/main.jpg" alt="Main Image">
-        </section>
+    <section class="hero" id="hero-background">
+        <div class="hero-text">
+            <h1>Send&Solve</h1>
+            <p>Moderní ticketovací nástroj pro snadné řešení problémů</p>
+            <a href="login.php" class="btn-main">
+                Přihlášení
+                <i class="fas fa-arrow-right"></i>
+            </a>
+        </div>
+    </section>
+
+    <script src="https://cdn.jsdelivr.net/npm/three@0.134.0/build/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vanta/dist/vanta.globe.min.js"></script>
+    <script>
+        VANTA.GLOBE({
+        el: "#hero-background",
+        mouseControls: true,
+        touchControls: true,
+        gyroControls: false,
+        minHeight: 200.00,
+        minWidth: 200.00,
+        scale: 1.00,
+        scaleMobile: 1.00,
+        color: 0x9c,
+        color2: 0x76868,
+        size: 0.80,
+        backgroundColor: 0xc0c0c0
+        })
+    </script>
 
         <section class="about" id="about">
             <div class="o-aplikaci">

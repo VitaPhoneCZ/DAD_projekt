@@ -5,6 +5,7 @@ header {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    flex-wrap: wrap; /* Umožňuje obsahům se přizpůsobit na menších obrazovkách */
 }
 
 .logo img {
@@ -38,4 +39,32 @@ nav ul li a:hover {
 
 .btn-login:hover {
     background: darkblue;
+}
+
+/* Mobile-friendly adjustments */
+@media (max-width: 768px) {
+    /* Zmenšení písma pro menší obrazovky */
+    nav ul li a {
+        font-size: 1rem;
+    }
+
+    .logo img {
+        height: 0px; /* Mírně zmenšit logo pro mobil */
+    }
+
+    nav ul {
+        flex-direction: column;
+        gap: 10px; /* Zmenšit mezery mezi položkami */
+        align-items: center; /* Zarovnat položky do středu */
+    }
+
+    .btn-login {
+        width: 100%; /* Tlačítko zabírá celou šířku pro mobil */
+        text-align: center; /* Tlačítko bude zarovnáno na střed */
+    }
+
+    header {
+        justify-content: center; /* Uprostřed pro menší obrazovky */
+        padding: 10px 15px; /* Zmenšení paddingu pro menší obrazovky */
+    }
 }

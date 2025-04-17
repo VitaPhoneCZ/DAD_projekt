@@ -47,30 +47,49 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Přidat uživatele</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="s/style.css">
 </head>
-<body>
-    <h2>Přidání nového uživatele</h2>
-    
-    <?php if (!empty($zprava)) : ?>
-        <p><?php echo htmlspecialchars($zprava); ?></p>
-    <?php endif; ?>
+<body style="background-color: #f8f9fa; font-family: 'Segoe UI', sans-serif;">
 
-    <form method="post">
-        <label for="name">Jméno:</label>
-        <input type="text" id="name" name="name" required><br>
+    <div class="container py-5">
+        <div class="card shadow-lg border-0 rounded-4" style="max-width: 600px; margin: 0 auto;">
+            <div class="card-body p-5">
+                <h2 class="text-primary mb-4">Přidání nového uživatele</h2>
 
-        <label for="email">E-mail:</label>
-        <input type="email" id="email" name="email" required><br>
+                <?php if (!empty($zprava)) : ?>
+                    <div class="alert alert-info" role="alert">
+                        <?php echo htmlspecialchars($zprava); ?>
+                    </div>
+                <?php endif; ?>
 
-        <label for="role">Role:</label>
-        <select id="role" name="role">
-            <option value="zak">Žák</option>
-            <option value="ucitel">Učitel</option>
-            <option value="it">IT</option>
-        </select><br>
+                <form method="post">
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Jméno:</label>
+                        <input type="text" id="name" name="name" class="form-control rounded-3" required>
+                    </div>
 
-        <button type="submit">Přidat uživatele</button>
-    </form>
+                    <div class="mb-3">
+                        <label for="email" class="form-label">E-mail:</label>
+                        <input type="email" id="email" name="email" class="form-control rounded-3" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="role" class="form-label">Role:</label>
+                        <select id="role" name="role" class="form-select rounded-3">
+                            <option value="zak">Žák</option>
+                            <option value="ucitel">Učitel</option>
+                            <option value="it">IT</option>
+                        </select>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary rounded-pill px-4">Přidat uživatele</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
 </html>

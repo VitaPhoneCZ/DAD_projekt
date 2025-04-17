@@ -20,41 +20,40 @@ if ($result->num_rows > 0) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Seznam uživatelů</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="s/style.css">
-    <style>
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        table, th, td {
-            border: 1px solid black;
-        }
-        th, td {
-            padding: 8px;
-            text-align: left;
-        }
-    </style>
 </head>
-<body>
+<body style="background-color: #f8f9fa; color: #333; font-family: 'Segoe UI', sans-serif;">
 
-    <h1>Seznam uživatelů</h1>
-
-    <table>
-        <tr>
-            <th>ID</th>
-            <th>Jméno</th>
-            <th>Email</th>
-            <th>Role</th>
-        </tr>
-        <?php foreach ($users as $user): ?>
-        <tr>
-            <td><?php echo htmlspecialchars($user['id']); ?></td>
-            <td><?php echo htmlspecialchars($user['name']); ?></td>
-            <td><?php echo htmlspecialchars($user['email']); ?></td>
-            <td><?php echo htmlspecialchars($user['role']); ?></td>
-        </tr>
-        <?php endforeach; ?>
-    </table>
+    <div class="container py-5">
+        <div class="card shadow-lg border-0 rounded-4">
+            <div class="card-body p-5">
+                <h2 class="mb-4 text-primary">Seznam uživatelů</h2>
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle">
+                        <thead class="table-light">
+                            <tr>
+                                <th>ID</th>
+                                <th>Jméno</th>
+                                <th>Email</th>
+                                <th>Role</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($users as $user): ?>
+                                <tr>
+                                    <td><?= htmlspecialchars($user['id']) ?></td>
+                                    <td><?= htmlspecialchars($user['name']) ?></td>
+                                    <td><?= htmlspecialchars($user['email']) ?></td>
+                                    <td><?= htmlspecialchars($user['role']) ?></td>
+                                </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
 
 </body>
 </html>

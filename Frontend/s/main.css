@@ -1,148 +1,97 @@
+body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background-color: #f8f9fa;
+    color: #333;
+}
+
 .btn-main {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 10px; /* Mezera mezi textem a ikonou */
-    background: linear-gradient(135deg, #007bff, #0056b3);
+    gap: 8px;
+    background-color: #4A90E2;
     color: white;
-    padding: 16px 32px;
-    font-size: 1.4rem;
-    font-weight: bold;
-    border-radius: 8px;
+    padding: 14px 28px;
+    font-size: 1.2rem;
+    font-weight: 600;
+    border-radius: 10px;
     text-decoration: none;
     transition: all 0.3s ease;
-    box-shadow: 0px 4px 15px rgba(0, 123, 255, 0.4);
-    position: relative;
-    overflow: hidden;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.15);
 }
 
-/* Světelný efekt při hoveru */
-.btn-main::before {
-    content: "";
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 300%;
-    height: 300%;
-    background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 0%, transparent 50%);
-    transition: transform 0.5s ease, opacity 0.5s ease;
-    transform: translate(-50%, -50%) scale(0);
-    opacity: 0;
-}
-
-.btn-main:hover::before {
-    transform: translate(-50%, -50%) scale(1);
-    opacity: 1;
-}
-
-/* Efekt zvětšení a změna barvy */
 .btn-main:hover {
-    background: linear-gradient(135deg, #0056b3, #004494);
-    transform: scale(1.05);
-    box-shadow: 0px 6px 20px rgba(0, 123, 255, 0.6);
+    background-color: #3f7fc6;
+    transform: translateY(-2px);
+    box-shadow: 0px 6px 20px rgba(0, 0, 0, 0.2);
 }
 
-/* Ikona uvnitř tlačítka */
 .btn-main i {
-    font-size: 1.4rem;
     transition: transform 0.3s ease;
 }
 
 .btn-main:hover i {
-    transform: translateX(5px);
+    transform: translateX(4px);
 }
-
 
 .hero {
     position: relative;
-    width: 100%;
-    height: 500px;
-    overflow: hidden;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    height: 100vh; /* Nastavit výšku sekce na celou výšku obrazovky */
+    overflow: hidden; /* Skrytí případného přetékání */
 }
 
-.hero img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-.overlay {
+#hero-background {
     position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.6);
-    display: flex;
-    justify-content: left;
-    align-items: center;
-    text-align: left;
+    z-index: -1; /* Aby byl efekt v pozadí */
 }
 
 .hero-text {
-    margin-left: 200px;
-    margin-right: 150px;
-    color: white;
-    text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.8);
+    text-align: center;
+    max-width: 700px;
 }
 
 .hero-text h1 {
-    font-size: 5rem;
-    margin-right: 45px;
+    font-size: 6rem;
+    margin-bottom: 10px;
+    color: #4A90E2;
 }
 
 .hero-text p {
-    font-size: 2rem;
-    margin-right: 45px;
+    font-size: 1.5rem;
+    margin-bottom: 30px;
+    color: #2f2f2f;
 }
 
 .about {
-    border-top: #1a1a2e 5px solid;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 60px 20px;
-    background: #ffffff;
+    background-color: #ffffff;
+    padding: 80px 20px;
+    text-align: center;
 }
 
 .o-aplikaci {
-    background: #fff;
     max-width: 700px;
-    padding: 30px;
-    border-radius: 12px;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-    text-align: center;
-    border: #7a7a7a solid 1px;
-    opacity: 0; /* Skryté na začátku */
-    transform: translateY(30px); /* Lehce posunuté dolů */
-    animation: fadeInUp 0.8s ease-out forwards;
+    margin: auto;
+    background: #fff;
+    padding: 40px;
+    border-radius: 16px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-/* Efekt při hoveru */
 .o-aplikaci:hover {
-    transform: scale(1.05);
-    box-shadow: 0 12px 30px rgb(0, 0, 0);
-}
-
-/* Klíčové snímky pro animaci */
-@keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(30px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+    transform: scale(1.03);
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.1);
 }
 
 .o-aplikaci h2 {
-    font-size: 2rem;
-    font-weight: bold;
-    color: #333;
-    margin-bottom: 15px;
+    font-size: 2.2rem;
+    color: #4A90E2;
+    margin-bottom: 20px;
 }
 
 .o-aplikaci p {
@@ -152,74 +101,70 @@
 }
 
 .reviews {
+    background: #f1f4f8;
+    padding: 60px 20px;
     text-align: center;
-    padding: 50px 50px;
-    border-top: #1a1a2e 5px solid;
-    background: linear-gradient(#ffffff, #1a1a2e);
-    padding-bottom: 50px;
 }
 
 .reviews h2 {
     font-size: 2rem;
-    margin-bottom: 50px;
-    margin-top: 20px;
+    margin-bottom: 40px;
+    color: #4A90E2;
 }
 
 .reviews-container {
     display: flex;
-    overflow: hidden;
     gap: 20px;
     justify-content: center;
-    align-items: center;
+    flex-wrap: wrap;
 }
 
 .review-card {
     background: white;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-    width: 300px;
-    text-align: center;
-    opacity: 0;
-    transform: translateY(20px);
-    transition: opacity 0.5s ease, transform 0.5s ease;
+    border-radius: 12px;
+    padding: 25px;
+    width: 280px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.07);
+    transition: transform 0.3s ease;
+}
+
+.review-card:hover {
+    transform: translateY(-5px);
 }
 
 .review-card img {
     width: 60px;
     height: 60px;
     border-radius: 50%;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
 }
 
 .review-card p {
-    font-size: 1rem;
     font-style: italic;
-    color: #555;
+    color: #666;
 }
 
 .review-card h4 {
     margin-top: 10px;
-    color: #222;
+    color: #333;
 }
 
 .gallery {
-    border-top: #fff 5px solid;
+    background: #ffffff;
+    padding: 60px 20px;
     text-align: center;
-    padding: 50px 20px;
-    background: #1a1a2e;
-    color: white;
 }
 
 .gallery h2 {
     font-size: 2rem;
-    margin-bottom: 50px;
+    margin-bottom: 40px;
+    color: #4A90E2;
 }
 
 .gallery-container {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 15px;
+    gap: 20px;
     max-width: 900px;
     margin: auto;
 }
@@ -228,27 +173,23 @@
     width: 100%;
     height: 200px;
     object-fit: cover;
-    border-radius: 10px;
+    border-radius: 12px;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-    cursor: pointer;
 }
 
 .gallery-container img:hover {
-    transform: scale(1.1);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+    transform: scale(1.05);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
 }
 
-/* Lightbox (fullscreen obrázek) */
 .lightbox {
     display: none;
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.9);
+    inset: 0;
+    background: rgba(0, 0, 0, 0.85);
     justify-content: center;
     align-items: center;
+    z-index: 1000;
 }
 
 .lightbox img {
