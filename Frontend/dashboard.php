@@ -1,17 +1,27 @@
 <?php
 session_start();
 include 'db.php';
-include 'header.php'; // Zahrnutí headeru a kontroly session
+include 'header.php';
 
 // Zkontroluj, jestli je uživatel přihlášen
-if (!isset($_SESSION['user']) || !isset($_SESSION['role'])) {
+if (!isset($_SESSION['user']) || !isset($_SESSION['role']) || !isset($_SESSION['email'])) {
     header('Location: login.php');
     exit();
 }
 
+// Načtení dark_mode z DB a uložení do session
+$email = $_SESSION['email'];
+$stmt = $conn->prepare("SELECT dark_mode FROM users WHERE email = ?");
+$stmt->bind_param("s", $email);
+$stmt->execute();
+$result = $stmt->get_result();
+if ($row = $result->fetch_assoc()) {
+    $_SESSION['dark_mode'] = $row['dark_mode'];
+}
+
 $jmeno = $_SESSION['user'];
 $role = $_SESSION['role'];
-$user_id = $_SESSION['user_id']; // Předpokládám, že máš uložené ID přihlášeného uživatele
+$user_id = $_SESSION['user_id'];
 
 // SQL dotaz podle role uživatele
 if ($role === 'it') {
@@ -29,11 +39,9 @@ if ($role === 'it') {
 }
 
 $stmt = $conn->prepare($sql);
-
 if ($role !== 'it') {
     $stmt->bind_param("i", $user_id);
 }
-
 $stmt->execute();
 $result = $stmt->get_result();
 ?>
@@ -47,7 +55,8 @@ $result = $stmt->get_result();
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="s/style.css">
 </head>
-<body style="background-color: #f8f9fa; color: #333; font-family: 'Segoe UI', sans-serif;">
+<body class="<?= ($_SESSION['dark_mode'] ?? 0) ? 'dark-mode' : '' ?>">
+
     <div class="container py-5">
         <div class="card shadow-lg border-0 rounded-4">
             <div class="card-body p-5">

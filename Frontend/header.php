@@ -7,33 +7,57 @@ if (!isset($_SESSION['user']) || !isset($_SESSION['role'])) {
     exit();
 }
 
-// Nastavení jména a role uživatele
 $jmeno = $_SESSION['user'];
 $role = $_SESSION['role'];
-
-// Nastavení profilového obrázku
 $profilovy_obrazek = ($role === 'it') ? 'photo/it-pfp.jpg' : (($role === 'ucitel') ? 'photo/ucitel.jpg' : (($role === 'zak') ? 'photo/zak.jpg' : 'photo/default.png'));
 ?>
 
-<header style="display: flex; justify-content: space-between; align-items: center; padding: 10px; background: #333; color: white;">
-    <nav>
-        <a href="index.php" style="color: white; text-decoration: none; margin-right: 15px;">Domů</a>
-        <a href="dashboard.php" style="color: white; text-decoration: none; margin-right: 15px;">Dashboard</a>
-        <a href="new_ticket.php" style="color: white; text-decoration: none; margin-right: 15px;">Nový ticket</a>
-        <a href="tickets.php" style="color: white; text-decoration: none; margin-right: 15px;">Seznam ticketů</a>
-        
-        <?php if ($role === 'it'): ?>
-            <a href="pridat_uzivatele.php" style="color: white; text-decoration: none; margin-right: 15px;">Přidání uživatele</a>
-            <a href="generate_reset_code.php" style="color: white; text-decoration: none; margin-right: 15px;">Generace reset kódu</a>
-            <a href="users.php" style="color: white; text-decoration: none; margin-right: 15px;">Seznam uživatelů</a>
-        <?php endif; ?>
-        
-        <a href="logout.php" style="color: white; text-decoration: none; margin-right: 15px;">Odhlásit se</a>
-    </nav>
-    
-    <!-- Zobrazení jména a profilového obrázku -->
-    <div style="display: flex; align-items: center;">
-        <a href="muj-ucet.php"><img src="<?= htmlspecialchars($profilovy_obrazek) ?>" alt="Profilový obrázek" style="width: 40px; height: 40px; border-radius: 50%; margin-right: 10px;"></a>
-        <a href="muj-ucet.php" style="color: white; text-decoration: none; font-weight: bold;"><?= htmlspecialchars($jmeno) ?></a>
-    </div>
-</header>
+<!DOCTYPE html>
+<html lang="cs">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Hlavní stránka</title>
+    <link rel="stylesheet" href="s/style.css">
+</head>
+
+<body>
+
+    <header class="sticky-header">
+        <div class="logo">
+            <img src="photo/logo.png" alt="Logo">
+        </div>
+        <nav>
+            <ul>
+                <li><a href="index.php">Domů</a></li>
+                <li><a href="dashboard.php">Dashboard</a></li>
+                <li><a href="new_ticket.php">Nový ticket</a></li>
+                <li><a href="tickets.php">Seznam ticketů</a></li>
+
+                <?php if ($role === 'it'): ?>
+                    <li><a href="pridat_uzivatele.php">Přidání uživatele</a></li>
+                    <li><a href="generate_reset_code.php">Generace reset kódu</a></li>
+                    <li><a href="users.php">Seznam uživatelů</a></li>
+                <?php endif; ?>
+
+                <li><a href="logout.php">Odhlásit se</a></li>
+            </ul>
+        </nav>
+
+        <div class="user-box" style="display: flex; align-items: center; gap: 10px">
+            <nav>
+                <ul>
+                    <li><a href="muj-ucet.php">
+                            <img src="<?= htmlspecialchars($profilovy_obrazek) ?>" alt="Profilový obrázek" style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover;">
+                        </a></li>
+                    <li><a href="muj-ucet.php"><?= htmlspecialchars($jmeno) ?></a></li>
+                </ul>
+            </nav>
+
+
+        </div>
+    </header>
+
+</body>
+
+</html>

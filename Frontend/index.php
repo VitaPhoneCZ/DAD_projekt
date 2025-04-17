@@ -10,9 +10,8 @@
     <link rel="stylesheet" href="s/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <script src="scripts/script.js" defer></script>
-
 </head>
-<body>
+<body class="<?= ($_SESSION['dark_mode'] ?? 0) ? 'dark-mode' : '' ?>">
     <?php renderHeader('index'); ?>
     <main>
 
@@ -93,5 +92,3 @@
     <?php renderFooter(); ?>
 </body>
 </html>
-
-

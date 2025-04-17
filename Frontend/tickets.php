@@ -41,7 +41,8 @@ $result = $stmt->get_result();
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="s/style.css">
 </head>
-<body style="background-color: #f8f9fa; font-family: 'Segoe UI', sans-serif;">
+<body class="<?= ($_SESSION['dark_mode'] ?? 0) ? 'dark-mode' : '' ?>">
+
 
     <?php include 'header.php'; ?>
 

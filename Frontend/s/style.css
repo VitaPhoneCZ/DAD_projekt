@@ -35,3 +35,176 @@ body {
 .btn:hover {
     background: darkblue;
 }
+
+.dark-mode {
+    background-color: #121212 !important;
+    color: #e0e0e0 !important;
+}
+
+.dark-mode .card {
+    background-color: #1e1e1e !important;
+    color: #e0e0e0 !important;
+    border: 1px solid #333;
+}
+
+.dark-mode .btn-outline-danger {
+    border-color: #888 !important;
+    color: #ddd !important;
+    background-color: transparent !important;
+}
+
+.dark-mode .btn-outline-danger:hover {
+    background-color: #ff4d4d !important;
+    border-color: #ff4d4d !important;
+    color: white !important;
+}
+
+.dark-mode .form-check-label {
+    color: #e0e0e0 !important;
+}
+
+.dark-mode p,
+.dark-mode h3,
+.dark-mode label {
+    color: #e0e0e0 !important;
+}
+
+.dark-mode .container {
+    background-color: #121212 !important;
+}
+
+/* Tabulka */
+.dark-mode .table {
+    --bs-table-bg: #2a2a2a; /* Tmavé pozadí pro tabulky */
+    --bs-table-border-color: #444; /* Tmavý okraj pro tabulky */
+    --bs-table-color: #e0e0e0; /* Světlý text v tabulkách */
+}
+
+
+.dark-mode .table thead {
+    background-color: #333;
+    color: #f0f0f0;
+}
+
+.dark-mode .table thead th {
+    background-color: #333 !important;
+    color: #f0f0f0 !important;
+    border-color: #444 !important;
+}
+
+.dark-mode .table td, 
+.dark-mode .table th {
+    border-color: #444;
+}
+
+/* Tělo tabulky */
+.dark-mode .table tbody {
+    background-color: #2c2c2c; /* Nastaví tmavší pozadí pro tělo tabulky */
+    color: #e0e0e0; /* Světlý text pro lepší kontrast */
+}
+
+.dark-mode .table tbody tr {
+    background-color: #2a2a2a; /* Řádky v tabulce tmavší */
+    color: #e0e0e0; /* Světlý text */
+}
+
+.dark-mode .table tbody tr:hover {
+    background-color: #444; /* Při hoveru se řádek ještě více ztmaví */
+}
+
+.dark-mode .badge.bg-warning {
+    background-color: #ffb300 !important;
+    color: #1a1a1a !important;
+}
+
+.dark-mode .badge.bg-success {
+    background-color: #66bb6a !important;
+}
+
+.dark-mode .badge.bg-secondary {
+    background-color: #757575 !important;
+}
+.dark-mode .form-control,
+.dark-mode .form-select {
+    background-color: #333; /* Tmavší pozadí pro pole */
+    color: #e0e0e0; /* Světlý text */
+    border-color: #444; /* Tmavý okraj pro kontrast */
+}
+
+.dark-mode .form-control:focus,
+.dark-mode .form-select:focus {
+    background-color: #444; /* Tmavší pozadí při focusu */
+    border-color: #888; /* Světlejší okraj při focusu */
+    color: #e0e0e0; /* Světlý text při focusu */
+}
+/* Pokud je aktivován dark mode */
+.dark-mode {
+    background-color: #121212;
+    color: #e0e0e0;
+}
+
+.dark-mode .card {
+    background-color: #1e1e1e;
+    color: #e0e0e0;
+    border: 1px solid #333;
+}
+
+.dark-mode .table {
+    background-color: #2a2a2a;
+    color: #ccc;
+}
+
+.dark-mode .table thead {
+    background-color: #333;
+    color: #f0f0f0;
+}
+
+.dark-mode .table thead th {
+    background-color: #333 !important;
+    color: #f0f0f0 !important;
+    border-color: #444 !important;
+}
+
+.dark-mode .table td, 
+.dark-mode .table th {
+    border-color: #444;
+}
+
+.dark-mode .table tbody tr {
+    background-color: #2c2c2c;
+    color: #e0e0e0;
+}
+
+.dark-mode .table tbody tr:hover {
+    background-color: #444;
+}
+
+.dark-mode .badge.bg-warning {
+    background-color: #ffb300;
+    color: #1a1a1a;
+}
+
+.dark-mode .badge.bg-success {
+    background-color: #66bb6a;
+}
+
+.dark-mode .badge.bg-danger {
+    background-color: #ff4d4d;
+}
+
+.dark-mode .badge.bg-secondary {
+    background-color: #757575;
+}
+.dark-mode .form-control,
+.dark-mode .form-select {
+    background-color: #333; /* Tmavší pozadí pro pole */
+    color: #e0e0e0; /* Světlý text */
+    border-color: #444; /* Tmavý okraj pro kontrast */
+}
+
+.dark-mode .form-control:focus,
+.dark-mode .form-select:focus {
+    background-color: #444; /* Tmavší pozadí při focusu */
+    border-color: #888; /* Světlejší okraj při focusu */
+    color: #e0e0e0; /* Světlý text při focusu */
+}
