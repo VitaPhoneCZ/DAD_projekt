@@ -3,7 +3,7 @@
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background: var(--light-color);
+    background: #eaeaea;
 }
 
 .auth-form {
@@ -50,7 +50,7 @@
 
 .auth-form a {
     text-decoration: none;
-    color: var(--primary-color);
+    color: #364353;
     font-weight: bold;
 }
 

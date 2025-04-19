@@ -2,7 +2,7 @@
 function renderHeader($currentPage = '') {
     echo '<header class="sticky-header">
         <div class="logo">
-            <img src="photo/logo.png" alt="Logo">
+            <img src="photo/logo.gif" alt="Logo">
         </div>
         <nav>
             <ul>

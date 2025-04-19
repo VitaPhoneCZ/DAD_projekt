@@ -9,7 +9,7 @@ header {
 }
 
 .logo img {
-    height: 50px;
+    height: 75px;
 }
 
 nav ul {
@@ -29,8 +29,8 @@ nav ul li a:hover {
 }
 
 .btn-login {
-    background: var(--primary-color);
-    color: white;
+    background: #7a99be;
+    color: #eaeaea;
     padding: 12px 24px;
     text-decoration: none;
     border-radius: 5px;
@@ -38,7 +38,7 @@ nav ul li a:hover {
 }
 
 .btn-login:hover {
-    background: darkblue;
+    background: #2c65ab;
 }
 
 /* Mobile-friendly adjustments */

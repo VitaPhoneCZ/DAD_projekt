@@ -15,41 +15,41 @@
     <?php renderHeader('index'); ?>
     <main>
 
-    <section class="hero" id="hero-background">
-        <div class="hero-text">
-            <h1>Send&Solve</h1>
-            <p>Moderní ticketovací nástroj pro snadné řešení problémů</p>
-            <a href="login.php" class="btn-main">
-                Přihlášení
-                <i class="fas fa-arrow-right"></i>
-            </a>
-        </div>
-    </section>
+        <section class="hero" id="hero-background">
+            <div class="hero-text">
+                <h1>Send&Solve</h1>
+                <p>Moderní ticketovací nástroj pro snadné řešení problémů</p>
+                <a href="login.php" class="btn-main">
+                    Přihlášení
+                    <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+        </section>
 
-    <script src="https://cdn.jsdelivr.net/npm/three@0.134.0/build/three.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/vanta/dist/vanta.globe.min.js"></script>
-    <script>
-        VANTA.GLOBE({
-        el: "#hero-background",
-        mouseControls: true,
-        touchControls: true,
-        gyroControls: false,
-        minHeight: 200.00,
-        minWidth: 200.00,
-        scale: 1.00,
-        scaleMobile: 1.00,
-        color: 0x9c,
-        color2: 0x76868,
-        size: 0.80,
-        backgroundColor: 0xc0c0c0
-        })
-    </script>
+        <script src="https://cdn.jsdelivr.net/npm/three@0.134.0/build/three.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/vanta/dist/vanta.globe.min.js"></script>
+        <script>
+            VANTA.GLOBE({
+            el: "#hero-background",
+            mouseControls: true,
+            touchControls: true,
+            gyroControls: false,
+            minHeight: 200.00,
+            minWidth: 200.00,
+            scale: 1.00,
+            scaleMobile: 1.00,
+            color: 0x9c,
+            color2: 0x76868,
+            size: 0.80,
+            backgroundColor: 0xc0c0c0
+            })
+        </script>
 
         <section class="about" id="about">
             <div class="o-aplikaci">
                 <h2>O Aplikaci</h2>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
-                <p>Similique incidunt sequi animi hic reprehenderit?</p>
+                <p>Send&Solve je ticketovací nástroj pro efektivní správu IT požadavků.</p>
+                <p>Zaměstnanci mohou jednoduše nahlásit problém a IT tým se o něj postará. Tento nástroj bude obsahovat dvě hlavní části: frontend vyvinutý v PHP a backend v Node.js s Express.js.</p>
             </div>
         </section>
 
@@ -77,10 +77,9 @@
         <section class="gallery">
             <h2>Galerie</h2>
             <div class="gallery-container">
-                <img src="photo/image1.jpg" alt="Obrázek 1" onclick="openLightbox(this)">
-                <img src="photo/image2.jpg" alt="Obrázek 2" onclick="openLightbox(this)">
-                <img src="photo/image3.jpg" alt="Obrázek 3" onclick="openLightbox(this)">
-                <img src="photo/image4.jpg" alt="Obrázek 4" onclick="openLightbox(this)">
+                <img src="photo/image1.png" alt="Obrázek 1" onclick="openLightbox(this)">
+                <img src="photo/image2.png" alt="Obrázek 2" onclick="openLightbox(this)">
+                <img src="photo/image3.png" alt="Obrázek 3" onclick="openLightbox(this)">
             </div>
 
             <!-- Lightbox (popup obrázek) -->
@@ -88,6 +87,16 @@
                 <img id="lightbox-img">
             </div>
         </section>
+
+
+        <section class="about" id="about">
+            <div class="o-aplikaci">
+                <h2>GitHub projektu</h2>
+                <p>https://github.com/VitaPhoneCZ/DAD_projekt</p>
+            </div>
+        </section>
+
+
     </main>
     <?php renderFooter(); ?>
 </body>

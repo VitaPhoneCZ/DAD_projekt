@@ -10,8 +10,8 @@ body {
     align-items: center;
     justify-content: center;
     gap: 8px;
-    background-color: #4A90E2;
-    color: white;
+    background-color: #7a99be;
+    color: #eaeaea;
     padding: 14px 28px;
     font-size: 1.2rem;
     font-weight: 600;
@@ -22,7 +22,7 @@ body {
 }
 
 .btn-main:hover {
-    background-color: #3f7fc6;
+    background-color: #2c65ab;
     transform: translateY(-2px);
     box-shadow: 0px 6px 20px rgba(0, 0, 0, 0.2);
 }
@@ -68,7 +68,7 @@ body {
 }
 
 .about {
-    background-color: #ffffff;
+    background-color: #eaeaea;
     padding: 80px 20px;
     text-align: center;
 }
@@ -76,7 +76,7 @@ body {
 .o-aplikaci {
     max-width: 700px;
     margin: auto;
-    background: #fff;
+    background: #364353;
     padding: 40px;
     border-radius: 16px;
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
@@ -90,18 +90,18 @@ body {
 
 .o-aplikaci h2 {
     font-size: 2.2rem;
-    color: #4A90E2;
+    color: #eaeaea;
     margin-bottom: 20px;
 }
 
 .o-aplikaci p {
     font-size: 1.1rem;
-    color: #555;
+    color: #c9c9c9;
     line-height: 1.6;
 }
 
 .reviews {
-    background: #f1f4f8;
+    background: #364353;
     padding: 60px 20px;
     text-align: center;
 }
@@ -109,7 +109,7 @@ body {
 .reviews h2 {
     font-size: 2rem;
     margin-bottom: 40px;
-    color: #4A90E2;
+    color: #eaeaea;
 }
 
 .reviews-container {
@@ -150,15 +150,15 @@ body {
 }
 
 .gallery {
-    background: #ffffff;
-    padding: 60px 20px;
+    background: #eaeaea;
+    padding: 60px 40px;
     text-align: center;
 }
 
 .gallery h2 {
     font-size: 2rem;
     margin-bottom: 40px;
-    color: #4A90E2;
+    color: #364353;
 }
 
 .gallery-container {
