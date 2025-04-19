@@ -23,7 +23,7 @@ $profilovy_obrazek = ($role === 'it') ? 'photo/it-pfp.jpg' : (($role === 'ucitel
 
 <body>
 
-    <header class="sticky-header">
+    <header>
         <div class="logo">
             <img src="photo/logo.gif" alt="Logo">
         </div>

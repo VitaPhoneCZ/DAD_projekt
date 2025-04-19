@@ -24,7 +24,7 @@ body {
 }
 
 .btn {
-    background: var(--primary-color);
+    background: #7a99be;
     color: white;
     padding: 12px 24px;
     text-decoration: none;
@@ -33,7 +33,7 @@ body {
 }
 
 .btn:hover {
-    background: darkblue;
+    background: #2c65ab;
 }
 
 .dark-mode {
