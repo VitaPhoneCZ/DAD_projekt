@@ -1,5 +1,8 @@
 <?php
-session_start();
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
 if (!isset($_SESSION['user']) || !isset($_SESSION['role'])) {
     header('Location: login.php');
     exit();
@@ -49,7 +52,13 @@ $result = $stmt->get_result();
     <div class="container py-5">
         <div class="card shadow-lg border-0 rounded-4">
             <div class="card-body p-5">
-                <h2 class="text-primary mb-4">Seznam ticketů</h2>
+            <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="text-primary mb-0">Seznam ticketů</h2>
+    <?php if ($role === 'it'): ?>
+        <a href="exporttickets.php" class="btn btn-success">Exportovat do Excelu</a>
+    <?php endif; ?>
+</div>
+
 
                 <div class="table-responsive">
                     <table class="table table-hover align-middle">

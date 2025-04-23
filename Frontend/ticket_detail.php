@@ -92,7 +92,7 @@ $result_replies = $stmt_replies->get_result();
         }
     </script>
 </head>
-<body style="background-color: #f8f9fa; color: #333; font-family: 'Segoe UI', sans-serif;">
+<body class="<?= ($_SESSION['dark_mode'] ?? 0) ? 'dark-mode' : '' ?>">
 
 <?php include 'header.php'; ?>
 
