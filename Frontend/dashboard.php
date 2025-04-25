@@ -25,17 +25,17 @@ $user_id = $_SESSION['user_id'];
 
 // SQL dotaz podle role uživatele
 if ($role === 'it') {
-    $sql = "SELECT tickets.id, tickets.title, tickets.status, users.name 
+    $sql = "SELECT tickets.id, tickets.title, tickets.status, tickets.priority, users.name 
             FROM tickets 
             JOIN users ON tickets.user_id = users.id 
             WHERE tickets.status = 'Otevřený' 
-            ORDER BY tickets.id ASC";
+            ORDER BY tickets.id DESC";
 } else {
-    $sql = "SELECT tickets.id, tickets.title, tickets.status, users.name 
+    $sql = "SELECT tickets.id, tickets.title, tickets.status, tickets.priority, users.name 
             FROM tickets 
             JOIN users ON tickets.user_id = users.id 
             WHERE tickets.status = 'Otevřený' AND tickets.user_id = ?
-            ORDER BY tickets.id ASC";
+            ORDER BY tickets.id DESC";
 }
 
 $stmt = $conn->prepare($sql);
@@ -67,7 +67,7 @@ $result = $stmt->get_result();
                             <tr>
                                 <th>#</th>
                                 <th>Název</th>
-                                <th>Stav</th>
+                                <th>Priorita</th>
                                 <th>Vytvořil</th>
                                 <th>Akce</th>
                             </tr>
@@ -79,15 +79,15 @@ $result = $stmt->get_result();
                                         <td><?= $row['id'] ?></td>
                                         <td><?= htmlspecialchars($row['title']) ?></td>
                                         <td>
-                                            <?php 
-                                                if ($row['status'] === 'Otevřený') {
-                                                    echo '<span class="badge bg-warning text-dark rounded-pill px-3 py-2">Otevřený</span>';
-                                                } elseif ($row['status'] === 'Uzavřený') {
-                                                    echo '<span class="badge bg-success rounded-pill px-3 py-2">Uzavřený</span>';
-                                                } else {
-                                                    echo '<span class="badge bg-secondary rounded-pill px-3 py-2">Neznámý</span>';
-                                                }
+                                            <?php
+                                            $priority_colors = [
+                                                'Nízká' => 'success',
+                                                'Střední' => 'warning',
+                                                'Vysoká' => 'danger'
+                                            ];
+                                            $priority_class = $priority_colors[$row['priority']] ?? 'secondary';
                                             ?>
+                                            <span class="badge bg-<?= $priority_class ?> rounded-pill px-3 py-2"><?= htmlspecialchars($row['priority']) ?></span>
                                         </td>
                                         <td><?= htmlspecialchars($row['name']) ?></td>
                                         <td>

@@ -8,6 +8,7 @@
     --dark-color: #1a1a2e;
     --light-color: #f4f4f4;
     --text-color: #333;
+    --min-touch-size: 44px; /* Minimum touch target size for mobile */
 }
 
 * {
@@ -21,6 +22,13 @@ body {
     background: var(--light-color);
     color: var(--text-color);
     line-height: 1.6;
+    font-size: clamp(16px, 2.5vw, 18px); /* Responsive font size */
+}
+
+/* Ensure viewport is set for mobile */
+@viewport {
+    width: device-width;
+    initial-scale: 1.0;
 }
 
 .btn {
@@ -30,12 +38,149 @@ body {
     text-decoration: none;
     border-radius: 5px;
     transition: 0.3s;
+    min-height: var(--min-touch-size); /* Touch-friendly size */
+    min-width: var(--min-touch-size);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: clamp(14px, 2.2vw, 16px);
 }
 
 .btn:hover {
     background: #2c65ab;
 }
 
+/* Mobile-first responsive container */
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+
+/* Header styles (for dashboard.php, tickets.php) */
+header {
+    background: var(--dark-color);
+    color: white;
+    padding: 1rem 0;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+/* Sticky header styles (for index.php) */
+.sticky-header {
+    background: var(--dark-color);
+    color: white;
+    padding: 1rem 0;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.logo {
+    flex: 0 0 auto; /* Keep logo fixed width, left-aligned */
+}
+
+.logo img {
+    max-width: 100px; /* Adjustable */
+    height: auto;
+    display: block;
+}
+
+.nav-container {
+    flex: 1; /* Take remaining space */
+    display: flex;
+    justify-content: center; /* Center nav */
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    gap: 15px;
+    margin: 0;
+    padding: 0;
+}
+
+nav ul li {
+    margin: 0;
+    position: relative; /* For dropdown positioning */
+}
+
+nav ul li a {
+    color: white;
+    text-decoration: none;
+    padding: 10px 15px;
+    font-size: clamp(14px, 2.2vw, 16px);
+    display: block;
+}
+
+nav ul li a:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 5px;
+}
+
+nav ul li a.btn-login {
+    background: #7a99be;
+    border-radius: 5px;
+    padding: 10px 20px;
+}
+
+nav ul li a.btn-login:hover {
+    background: #2c65ab;
+}
+
+/* Dropdown styles */
+.dropdown-toggle {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background: var(--dark-color);
+    border-radius: 5px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    min-width: 150px;
+    z-index: 1000;
+}
+
+.dropdown:hover .dropdown-menu {
+    display: block; /* Show on hover for desktop */
+}
+
+.dropdown-menu li a {
+    padding: 10px 15px;
+    font-size: clamp(13px, 2vw, 15px);
+    color: white;
+}
+
+.dropdown-menu li a:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+/* Mobile menu toggle */
+.nav-toggle {
+    display: none;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+    padding: 10px;
+}
+
+/* Dark mode styles */
 .dark-mode {
     background-color: #121212 !important;
     color: #e0e0e0 !important;
@@ -73,13 +218,40 @@ body {
     background-color: #121212 !important;
 }
 
-/* Tabulka */
-.dark-mode .table {
-    --bs-table-bg: #2a2a2a; /* Tmavé pozadí pro tabulky */
-    --bs-table-border-color: #444; /* Tmavý okraj pro tabulky */
-    --bs-table-color: #e0e0e0; /* Světlý text v tabulkách */
+/* Table styling */
+.table {
+    width: 100%;
+    margin-bottom: 1rem;
+    color: var(--text-color);
 }
 
+.table th,
+.table td {
+    padding: 12px;
+    vertical-align: middle;
+    border: 1px solid #dee2e6;
+}
+
+.table thead th {
+    background-color: #f8f9fa;
+    color: var(--text-color);
+    border-color: #dee2e6;
+}
+
+.table tbody tr {
+    background-color: white;
+    transition: background-color 0.3s ease;
+}
+
+.table tbody tr:hover {
+    background-color: #f1f3f5;
+}
+
+.dark-mode .table {
+    --bs-table-bg: #2a2a2a;
+    --bs-table-border-color: #444;
+    --bs-table-color: #e0e0e0;
+}
 
 .dark-mode .table thead {
     background-color: #333;
@@ -92,24 +264,30 @@ body {
     border-color: #444 !important;
 }
 
-.dark-mode .table td, 
+.dark-mode .table td,
 .dark-mode .table th {
     border-color: #444;
 }
 
-/* Tělo tabulky */
 .dark-mode .table tbody {
-    background-color: #2c2c2c; /* Nastaví tmavší pozadí pro tělo tabulky */
-    color: #e0e0e0; /* Světlý text pro lepší kontrast */
+    background-color: #2a2c2c;
+    color: #e0e0e0;
 }
 
 .dark-mode .table tbody tr {
-    background-color: #2a2a2a; /* Řádky v tabulce tmavší */
-    color: #e0e0e0; /* Světlý text */
+    background-color: #2a2a2a;
+    color: #e0e0e0;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .dark-mode .table tbody tr:hover {
-    background-color: #444; /* Při hoveru se řádek ještě více ztmaví */
+    background-color: #555;
+    color: #fff;
+}
+
+.dark-mode .table-hover > tbody > tr:hover > * {
+    --bs-table-color-state: #fff !important;
+    --bs-table-bg-state: #555 !important;
 }
 
 .dark-mode .badge.bg-warning {
@@ -124,92 +302,191 @@ body {
 .dark-mode .badge.bg-secondary {
     background-color: #757575 !important;
 }
+
 .dark-mode .form-control,
 .dark-mode .form-select {
-    background-color: #333; /* Tmavší pozadí pro pole */
-    color: #e0e0e0; /* Světlý text */
-    border-color: #444; /* Tmavý okraj pro kontrast */
-}
-
-.dark-mode .form-control:focus,
-.dark-mode .form-select:focus {
-    background-color: #444; /* Tmavší pozadí při focusu */
-    border-color: #888; /* Světlejší okraj při focusu */
-    color: #e0e0e0; /* Světlý text při focusu */
-}
-/* Pokud je aktivován dark mode */
-.dark-mode {
-    background-color: #121212;
-    color: #e0e0e0;
-}
-
-.dark-mode .card {
-    background-color: #1e1e1e;
-    color: #e0e0e0;
-    border: 1px solid #333;
-}
-
-.dark-mode .table {
-    background-color: #2a2a2a;
-    color: #ccc;
-}
-
-.dark-mode .table thead {
     background-color: #333;
-    color: #f0f0f0;
-}
-
-.dark-mode .table thead th {
-    background-color: #333 !important;
-    color: #f0f0f0 !important;
-    border-color: #444 !important;
-}
-
-.dark-mode .table td, 
-.dark-mode .table th {
-    border-color: #444;
-}
-
-.dark-mode .table tbody tr {
-    background-color: #2c2c2c;
     color: #e0e0e0;
-}
-
-.dark-mode .table tbody tr:hover {
-    background-color: #444;
-}
-
-.dark-mode .badge.bg-warning {
-    background-color: #ffb300;
-    color: #1a1a1a;
-}
-
-.dark-mode .badge.bg-success {
-    background-color: #66bb6a;
-}
-
-.dark-mode .badge.bg-danger {
-    background-color: #ff4d4d;
-}
-
-.dark-mode .badge.bg-secondary {
-    background-color: #757575;
-}
-.dark-mode .form-control,
-.dark-mode .form-select {
-    background-color: #333; /* Tmavší pozadí pro pole */
-    color: #e0e0e0; /* Světlý text */
-    border-color: #444; /* Tmavý okraj pro kontrast */
+    border-color: #444;
+    font-size: clamp(14px, 2.2vw, 16px);
 }
 
 .dark-mode .form-control:focus,
 .dark-mode .form-select:focus {
-    background-color: #444; /* Tmavší pozadí při focusu */
-    border-color: #888; /* Světlejší okraj při focusu */
-    color: #e0e0e0; /* Světlý text při focusu */
+    background-color: #444;
+    border-color: #888;
+    color: #e0e0e0;
 }
-.dark-mode .bg-light {
-    background-color: #2a2a2a !important;
-    color: #e0e0e0 !important;
-    border: 1px solid #444;
+
+/* Mobile-specific adjustments */
+@media screen and (max-width: 768px) {
+    body {
+        font-size: clamp(14px, 2.8vw, 16px);
+    }
+
+    .btn {
+        padding: 10px 20px;
+        font-size: clamp(13px, 2.5vw, 15px);
+    }
+
+    .container {
+        padding: 0 10px;
+    }
+
+    /* Mobile header (dashboard.php, tickets.php) */
+    header {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 0.5rem 1rem;
+    }
+
+    /* Mobile sticky header (index.php) */
+    .sticky-header {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 0.5rem 1rem;
+    }
+
+    .logo img {
+        max-width: 80px;
+    }
+
+    .nav-toggle {
+        display: block;
+        position: absolute;
+        top: 10px;
+        right: 10px;
+    }
+
+    .nav-container {
+        width: 100%;
+        justify-content: flex-start; /* Reset to left for mobile */
+    }
+
+    nav {
+        width: 100%;
+    }
+
+    nav ul {
+        display: none;
+        flex-direction: column;
+        width: 100%;
+        background: var(--dark-color);
+        padding: 1rem 0;
+    }
+
+    nav ul.active {
+        display: flex;
+    }
+
+    nav ul li {
+        width: 100%;
+    }
+
+    nav ul li a {
+        padding: 15px 20px;
+        font-size: clamp(15px, 3vw, 17px);
+        min-height: var(--min-touch-size);
+    }
+
+    nav ul li a.btn-login {
+        margin: 0 20px;
+        text-align: center;
+    }
+
+    /* Mobile dropdown */
+    .dropdown-menu {
+        position: static;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 0;
+        margin: 0 0 0 1rem; /* Indent for nested appearance */
+        display: none; /* Hidden by default */
+    }
+
+    .dropdown.active .dropdown-menu {
+        display: block; /* Show when parent li is active */
+    }
+
+    .dropdown-menu li a {
+        padding: 10px 20px;
+        font-size: clamp(14px, 2.5vw, 16px);
+    }
+
+    /* Mobile table adjustments */
+    .table-responsive {
+        overflow-x: hidden; /* Prevent horizontal scrolling */
+        overflow-y: auto; /* Enable vertical scrolling */
+        max-height: calc(100vh - 200px); /* Fit within viewport */
+        -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+    }
+
+    .card, .card-body {
+        overflow: visible; /* Ensure parent containers allow scrolling */
+    }
+
+    .table {
+        font-size: clamp(11px, 2.3vw, 13px); /* Smaller font for mobile */
+    }
+
+    .table th,
+    .table td {
+        padding: 6px; /* Reduced padding */
+        white-space: nowrap; /* Prevent text wrapping */
+    }
+
+    .table thead th:nth-child(n+5), /* Hide "Platforma", "Vytvořil", "Vytvořeno", "Akce" in tickets.php */
+    .table tbody td:nth-child(n+5) {
+        display: none;
+    }
+
+    .table thead th:nth-child(1), .table tbody td:nth-child(1) { width: 12%; } /* "#" */
+    .table thead th:nth-child(2), .table tbody td:nth-child(2) { width: 48%; } /* "Název" */
+    .table thead th:nth-child(3), .table tbody td:nth-child(3) { width: 20%; } /* "Stav" */
+    .table thead th:nth-child(4), .table tbody td:nth-child(4) { width: 20%; } /* "Priorita" */
+
+    .table .badge {
+        font-size: clamp(10px, 2vw, 11px);
+        padding: 5px 8px;
+    }
+
+    .table .btn {
+        font-size: clamp(10px, 2vw, 11px);
+        padding: 5px 10px;
+        min-height: var(--min-touch-size);
+    }
+
+    .form-control,
+    .form-select {
+        width: 100%;
+        min-height: var(--min-touch-size);
+        font-size: clamp(12px, 2.3vw, 13px);
+    }
+}
+
+@media screen and (max-width: 480px) {
+    body {
+        font-size: clamp(13px, 3vw, 15px);
+    }
+
+    .btn {
+        width: 100%;
+        padding: 12px;
+    }
+
+    .logo img {
+        max-width: 60px;
+    }
+
+    .table {
+        font-size: clamp(10px, 2.3vw, 12px);
+    }
+
+    .table th,
+    .table td {
+        padding: 5px;
+    }
+
+    .table-responsive {
+        max-height: calc(100vh - 180px); /* Slightly smaller for smaller screens */
+    }
 }

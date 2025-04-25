@@ -1,12 +1,9 @@
 <?php
 session_start();
-
+include 'db.php';
 if (isset($_SESSION['email']) && isset($_POST['dark_mode'])) {
     // Připojení k databázi
-    $host = "localhost";
-    $user = "root";
-    $pass = "";
-    $dbname = "dad_db";
+
     
     $conn = new mysqli($host, $user, $pass, $dbname);
 
