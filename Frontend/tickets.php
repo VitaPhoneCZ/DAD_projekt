@@ -8,7 +8,7 @@ if (!isset($_SESSION['user']) || !isset($_SESSION['role'])) {
     exit();
 }
 
-include 'db.php'; // Připojení k databázi
+include 'components/db.php'; // Připojení k databázi
 
 $jmeno = $_SESSION['user'];
 $role = $_SESSION['role'];
@@ -42,12 +42,12 @@ $result = $stmt->get_result();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Seznam ticketů</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="s/style.css">
+    <link rel="stylesheet" href="styles/style.css">
 </head>
 <body class="<?= ($_SESSION['dark_mode'] ?? 0) ? 'dark-mode' : '' ?>">
 
 
-    <?php include 'header.php'; ?>
+    <?php include 'components/post_login_header.php'; ?>
 
     <div class="container py-5">
         <div class="card shadow-lg border-0 rounded-4">

@@ -36,7 +36,7 @@ $profilovy_obrazek = ($role === 'it') ? 'photo/it-pfp.jpg' : (($role === 'ucitel
                     </a>
                     <ul class="dropdown-menu">
                         <li><a href="muj-ucet.php">Můj účet</a></li>
-                        <li><a href="logout.php">Odhlásit se</a></li>
+                        <li><a href="components/logout.php">Odhlásit se</a></li>
                     </ul>
                 </li>
             </ul>

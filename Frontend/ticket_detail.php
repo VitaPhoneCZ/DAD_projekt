@@ -4,7 +4,7 @@ if (!isset($_SESSION['user']) || !isset($_SESSION['role']) || !isset($_SESSION['
     die('Není přihlášený uživatel.');
 }
 
-include 'db.php'; // Připojení k databázi
+include 'components/db.php'; // Připojení k databázi
 
 if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
     die('Neplatné ID ticketu.');
@@ -85,7 +85,7 @@ $result_replies = $stmt_replies->get_result();
     <meta charset="UTF-8">
     <title>Detail ticketu | Ticket System</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="s/style.css">
+    <link rel="stylesheet" href="styles/style.css">
     <script>
         function confirmClose() {
             return confirm("Chcete opravdu uzavřít tento ticket?");
@@ -94,7 +94,7 @@ $result_replies = $stmt_replies->get_result();
 </head>
 <body class="<?= ($_SESSION['dark_mode'] ?? 0) ? 'dark-mode' : '' ?>">
 
-<?php include 'header.php'; ?>
+<?php include 'components/post_login_header.php'; ?>
 
 <div class="container py-5">
     <div class="card shadow-lg border-0 rounded-4">

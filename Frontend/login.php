@@ -8,7 +8,7 @@ if (isset($_SESSION['user'])) {
 }
 
 // Načtení zpracování přihlášení
-include 'login_process.php';
+include __DIR__ . '/components/login_process.php';
 include __DIR__ . '/components/header.php';
 include __DIR__ . '/components/footer.php';
 ?>

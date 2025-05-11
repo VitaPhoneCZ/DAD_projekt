@@ -3,8 +3,8 @@ if (session_status() == PHP_SESSION_NONE) {
     session_start(); // Zajištění, že session je aktivní
 }
 
-include 'db.php';
-include 'header.php';
+include 'components/db.php';
+include 'components/post_login_header.php';
 
 if (!isset($_SESSION['email'])) {
     header('Location: login.php');
@@ -42,7 +42,7 @@ $profilovy_obrazek = ($role === 'it') ? 'photo/it-pfp.jpg' : (($role === 'ucitel
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Můj profil</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="s/style.css">
+    <link rel="stylesheet" href="styles/style.css">
 </head>
 
 
@@ -85,7 +85,7 @@ $profilovy_obrazek = ($role === 'it') ? 'photo/it-pfp.jpg' : (($role === 'ucitel
         document.getElementById('darkModeSwitch').addEventListener('change', function() {
             const enabled = this.checked ? 1 : 0;
 
-            fetch('toggle_dark_mode.php', {
+            fetch('components/toggle_dark_mode.php', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded'

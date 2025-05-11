@@ -1,7 +1,7 @@
 <?php
 // Zahrnutí připojení k databázi
-include 'db.php';
-include 'header.php';
+include 'components/db.php';
+include 'components/post_login_header.php';
 
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -39,7 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Generování kódu pro reset hesla</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="s/style.css">
+    <link rel="stylesheet" href="styles/style.css">
 </head>
 <body class="<?= ($_SESSION['dark_mode'] ?? 0) ? 'dark-mode' : '' ?>">
 
