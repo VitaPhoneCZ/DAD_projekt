@@ -12,7 +12,7 @@
 ---
 
 ## 🌟 O aplikaci
-**Send&Solve** je ticketovací nástroj pro efektivní správu IT požadavků. Zaměstnanci mohou jednoduše nahlásit problém a IT tým se o něj postará. Tento nástroj bude obsahovat dvě hlavní části: frontend vyvinutý v PHP a backend v Node.js s Express.js.
+**Send&Solve** je ticketovací nástroj pro efektivní správu IT požadavků. Zaměstnanci mohou jednoduše nahlásit problém a IT tým se o něj postará. Tento nástroj bude obsahovat dvě hlavní části: frontend vyvinutý v PHP a backend pomocí MySQL.
 
 ### 🛠️ Funkcionality
 - **Vytváření ticketů** - Uživatelé mohou zadávat nové tickety s popisem problému.
