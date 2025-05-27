@@ -1,15 +1,18 @@
 <?php
+// Spuštění session
 session_start();
+
+// Načtení potřebných souborů
 include 'components/db.php';
 include 'components/post_login_header.php';
 
-// Zkontroluj, jestli je uživatel přihlášen
+// Kontrola přihlášení uživatele
 if (!isset($_SESSION['user']) || !isset($_SESSION['role']) || !isset($_SESSION['email'])) {
     header('Location: login.php');
     exit();
 }
 
-// Načtení dark_mode z DB a uložení do session
+// Načtení dark mode z databáze
 $email = $_SESSION['email'];
 $stmt = $conn->prepare("SELECT dark_mode FROM users WHERE email = ?");
 $stmt->bind_param("s", $email);
@@ -19,11 +22,12 @@ if ($row = $result->fetch_assoc()) {
     $_SESSION['dark_mode'] = $row['dark_mode'];
 }
 
+// Uložení údajů uživatele
 $jmeno = $_SESSION['user'];
 $role = $_SESSION['role'];
 $user_id = $_SESSION['user_id'];
 
-// SQL dotaz podle role uživatele
+// SQL dotaz podle role
 if ($role === 'it') {
     $sql = "SELECT tickets.id, tickets.title, tickets.status, tickets.priority, users.name 
             FROM tickets 
@@ -38,6 +42,7 @@ if ($role === 'it') {
             ORDER BY tickets.id DESC";
 }
 
+// Provedení dotazu
 $stmt = $conn->prepare($sql);
 if ($role !== 'it') {
     $stmt->bind_param("i", $user_id);
@@ -56,7 +61,6 @@ $result = $stmt->get_result();
     <link rel="stylesheet" href="styles/style.css">
 </head>
 <body class="<?= ($_SESSION['dark_mode'] ?? 0) ? 'dark-mode' : '' ?>">
-
     <div class="container py-5">
         <div class="card shadow-lg border-0 rounded-4">
             <div class="card-body p-5">
@@ -80,6 +84,7 @@ $result = $stmt->get_result();
                                         <td><?= htmlspecialchars($row['title']) ?></td>
                                         <td>
                                             <?php
+                                            // Barevné označení priorit
                                             $priority_colors = [
                                                 'Nízká' => 'success',
                                                 'Střední' => 'warning',

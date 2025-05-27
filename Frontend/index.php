@@ -1,5 +1,8 @@
-<?php include __DIR__ . '/components/header.php'; ?>
-<?php include __DIR__ . '/components/footer.php'; ?>
+<?php
+// Načtení potřebných souborů
+include __DIR__ . '/components/header.php';
+include __DIR__ . '/components/footer.php';
+?>
 
 <!DOCTYPE html>
 <html lang="cs">
@@ -11,12 +14,11 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <script src="scripts/script.js" defer></script>
     <script src="https://cdn.tailwindcss.com"></script>
-
 </head>
 <body class="<?= ($_SESSION['dark_mode'] ?? 0) ? 'dark-mode' : '' ?>">
     <?php renderHeader('index'); ?>
+    <!-- Hlavní obsah stránky -->
     <main>
-
         <section class="hero" id="hero-background">
             <div class="hero-text">
                 <h1 class="text-4xl">Send&Solve</h1>
@@ -32,17 +34,17 @@
         <script src="https://cdn.jsdelivr.net/npm/vanta/dist/vanta.globe.min.js"></script>
         <script>
             VANTA.GLOBE({
-            el: "#hero-background",
-            mouseControls: true,
-            touchControls: true,
-            gyroControls: false,
-            minHeight: 200.00,
-            minWidth: 200.00,
-            scale: 1.00,
-            scaleMobile: 1.00,
-            color: 0xb2988,
-            color2: 0x8b88ff,
-            backgroundColor: 0xc5c5c5
+                el: "#hero-background",
+                mouseControls: true,
+                touchControls: true,
+                gyroControls: false,
+                minHeight: 200.00,
+                minWidth: 200.00,
+                scale: 1.00,
+                scaleMobile: 1.00,
+                color: 0xb2988,
+                color2: 0x8b88ff,
+                backgroundColor: 0xc5c5c5
             })
         </script>
 
@@ -119,7 +121,6 @@
             </div>
         </section>
 
-
         <section class="reviews">
             <h2>Recenze</h2>
             <div class="reviews-container">
@@ -155,15 +156,12 @@
             </div>
         </section>
 
-
         <section class="about" id="about">
             <div class="o-aplikaci">
                 <h2>GitHub projektu</h2>
                 <p><a href="https://github.com/VitaPhoneCZ/DAD_projekt" target="_blank">👉 https://github.com/VitaPhoneCZ/DAD_projekt</a></p>
             </div>
         </section>
-
-
     </main>
     <?php renderFooter(); ?>
 </body>

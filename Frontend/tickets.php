@@ -1,20 +1,25 @@
 <?php
+// Spuštění session
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
+// Kontrola přihlášení uživatele
 if (!isset($_SESSION['user']) || !isset($_SESSION['role'])) {
     header('Location: login.php');
     exit();
 }
 
-include 'components/db.php'; // Připojení k databázi
+// Načtení potřebných souborů
+include __DIR__ . '/components/db.php';
+include __DIR__ . '/components/post_login_header.php';
 
+// Získání údajů uživatele
 $jmeno = $_SESSION['user'];
 $role = $_SESSION['role'];
-$user_id = $_SESSION['user_id']; // Předpokládám, že máš uložené ID přihlášeného uživatele
+$user_id = $_SESSION['user_id'];
 
-// SQL dotaz podle role uživatele
+// Příprava SQL dotazu podle role
 if ($role === 'it') {
     $sql = "SELECT tickets.id, tickets.title, tickets.status, tickets.priority, tickets.platform, tickets.created_at, users.name 
             FROM tickets 
@@ -44,22 +49,17 @@ $result = $stmt->get_result();
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="styles/style.css">
 </head>
-<body class="<?= ($_SESSION['dark_mode'] ?? 0) ? 'dark-mode' : '' ?>">
-
-
-    <?php include 'components/post_login_header.php'; ?>
-
+<body class="<?= ($_SESSION['dark_mode'] ?? 0) ? 'dark-mode' : 'bg-light' ?>">
+    <!-- Tabulka se seznamem ticketů -->
     <div class="container py-5">
         <div class="card shadow-lg border-0 rounded-4">
             <div class="card-body p-5">
-            <div class="d-flex justify-content-between align-items-center mb-4">
-    <h2 class="text-primary mb-0">Seznam ticketů</h2>
-    <?php if ($role === 'it'): ?>
-        <a href="exporttickets.php" class="btn btn-success">Exportovat do Excelu</a>
-    <?php endif; ?>
-</div>
-
-
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h2 class="text-primary mb-0">Seznam ticketů</h2>
+                    <?php if ($role === 'it'): ?>
+                        <a href="components/exporttickets.php" class="btn btn-success rounded-pill">Exportovat do Excelu</a>
+                    <?php endif; ?>
+                </div>
                 <div class="table-responsive">
                     <table class="table table-hover align-middle">
                         <thead class="table-light">
@@ -78,7 +78,7 @@ $result = $stmt->get_result();
                             <?php if ($result->num_rows > 0): ?>
                                 <?php while ($row = $result->fetch_assoc()): ?>
                                     <tr>
-                                        <td><?= $row['id'] ?></td>
+                                        <td><?= htmlspecialchars($row['id']) ?></td>
                                         <td><?= htmlspecialchars($row['title']) ?></td>
                                         <td>
                                             <?php if ($row['status'] === 'Otevřený'): ?>
@@ -100,7 +100,7 @@ $result = $stmt->get_result();
                                         </td>
                                         <td><?= htmlspecialchars($row['platform']) ?></td>
                                         <td><?= htmlspecialchars($row['name']) ?></td>
-                                        <td><?= $row['created_at'] ?></td>
+                                        <td><?= htmlspecialchars($row['created_at']) ?></td>
                                         <td>
                                             <a href="ticket_detail.php?id=<?= $row['id'] ?>" class="btn btn-sm btn-outline-primary rounded-pill px-3">Zobrazit</a>
                                         </td>
@@ -108,13 +108,12 @@ $result = $stmt->get_result();
                                 <?php endwhile; ?>
                             <?php else: ?>
                                 <tr>
-                                    <td colspan="8" class="text-center text-muted">Žádné tickety k zobrazení</td>
+                                    <td colspan="8" class="text-center text-muted py-4">Žádné tickety k zobrazení</td>
                                 </tr>
                             <?php endif; ?>
                         </tbody>
                     </table>
                 </div>
-
             </div>
         </div>
     </div>

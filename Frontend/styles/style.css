@@ -8,7 +8,7 @@
     --dark-color: #1a1a2e;
     --light-color: #f4f4f4;
     --text-color: #333;
-    --min-touch-size: 44px; /* Minimum touch target size for mobile */
+    --min-touch-size: 44px; /* Minimální velikost dotykového cíle pro mobilní zařízení */
 }
 
 * {
@@ -22,10 +22,10 @@ body {
     background: var(--light-color);
     color: var(--text-color);
     line-height: 1.6;
-    font-size: clamp(16px, 2.5vw, 18px); /* Responsive font size */
+    font-size: clamp(16px, 2.5vw, 18px); /* Responzivní velikost písma */
 }
 
-/* Ensure viewport is set for mobile */
+/* Nastavení viewportu pro mobilní zařízení */
 @viewport {
     width: device-width;
     initial-scale: 1.0;
@@ -38,7 +38,7 @@ body {
     text-decoration: none;
     border-radius: 5px;
     transition: 0.3s;
-    min-height: var(--min-touch-size); /* Touch-friendly size */
+    min-height: var(--min-touch-size); /* Velikost přátelská k dotyku */
     min-width: var(--min-touch-size);
     display: inline-flex;
     align-items: center;
@@ -50,7 +50,7 @@ body {
     background: #2c65ab;
 }
 
-/* Mobile-first responsive container */
+/* Responzivní kontejner s přístupem mobile-first */
 .container {
     width: 100%;
     max-width: 1200px;
@@ -58,7 +58,7 @@ body {
     padding: 0 15px;
 }
 
-/* Header styles (for dashboard.php, tickets.php) */
+/* Styly hlavičky (pro dashboard.php, tickets.php) */
 header {
     background: var(--dark-color);
     color: white;
@@ -68,7 +68,7 @@ header {
     flex-wrap: wrap;
 }
 
-/* Sticky header styles (for index.php) */
+/* Styly přilepené hlavičky (pro index.php) */
 .sticky-header {
     background: var(--dark-color);
     color: white;
@@ -83,19 +83,19 @@ header {
 }
 
 .logo {
-    flex: 0 0 auto; /* Keep logo fixed width, left-aligned */
+    flex: 0 0 auto; /* Zachová pevnou šířku loga, zarovnáno vlevo */
 }
 
 .logo img {
-    max-width: 100px; /* Adjustable */
+    max-width: 100px; /* Nastavitelná šířka */
     height: auto;
     display: block;
 }
 
 .nav-container {
-    flex: 1; /* Take remaining space */
+    flex: 1; /* Zabere zbývající prostor */
     display: flex;
-    justify-content: center; /* Center nav */
+    justify-content: center; /* Vystředí navigaci */
 }
 
 nav ul {
@@ -108,7 +108,7 @@ nav ul {
 
 nav ul li {
     margin: 0;
-    position: relative; /* For dropdown positioning */
+    position: relative; /* Pro umístění rozbalovací nabídky */
 }
 
 nav ul li a {
@@ -134,7 +134,7 @@ nav ul li a.btn-login:hover {
     background: #2c65ab;
 }
 
-/* Dropdown styles */
+/* Styly rozbalovací nabídky */
 .dropdown-toggle {
     display: flex;
     align-items: center;
@@ -156,7 +156,7 @@ nav ul li a.btn-login:hover {
 }
 
 .dropdown:hover .dropdown-menu {
-    display: block; /* Show on hover for desktop */
+    display: block; /* Zobrazí při najetí myší na desktopu */
 }
 
 .dropdown-menu li a {
@@ -169,7 +169,7 @@ nav ul li a.btn-login:hover {
     background: rgba(255, 255, 255, 0.2);
 }
 
-/* Mobile menu toggle */
+/* Přepínání mobilního menu */
 .nav-toggle {
     display: none;
     background: none;
@@ -180,7 +180,7 @@ nav ul li a.btn-login:hover {
     padding: 10px;
 }
 
-/* Dark mode styles */
+/* Styly pro tmavý režim */
 .dark-mode {
     background-color: #121212 !important;
     color: #e0e0e0 !important;
@@ -218,7 +218,7 @@ nav ul li a.btn-login:hover {
     background-color: #121212 !important;
 }
 
-/* Table styling */
+/* Stylování tabulky */
 .table {
     width: 100%;
     margin-bottom: 1rem;
@@ -318,7 +318,7 @@ nav ul li a.btn-login:hover {
     color: #e0e0e0;
 }
 
-/* Mobile-specific adjustments */
+/* Úpravy pro mobilní zařízení */
 @media screen and (max-width: 768px) {
     body {
         font-size: clamp(14px, 2.8vw, 16px);
@@ -333,14 +333,14 @@ nav ul li a.btn-login:hover {
         padding: 0 10px;
     }
 
-    /* Mobile header (dashboard.php, tickets.php) */
+    /* Mobilní hlavička (dashboard.php, tickets.php) */
     header {
         flex-direction: column;
         align-items: flex-start;
         padding: 0.5rem 1rem;
     }
 
-    /* Mobile sticky header (index.php) */
+    /* Mobilní přilepená hlavička (index.php) */
     .sticky-header {
         flex-direction: column;
         align-items: flex-start;
@@ -360,7 +360,7 @@ nav ul li a.btn-login:hover {
 
     .nav-container {
         width: 100%;
-        justify-content: flex-start; /* Reset to left for mobile */
+        justify-content: flex-start; /* Zarovnání doleva pro mobil */
     }
 
     nav {
@@ -394,17 +394,17 @@ nav ul li a.btn-login:hover {
         text-align: center;
     }
 
-    /* Mobile dropdown */
+    /* Mobilní rozbalovací nabídka */
     .dropdown-menu {
         position: static;
         background: rgba(255, 255, 255, 0.1);
         border-radius: 0;
-        margin: 0 0 0 1rem; /* Indent for nested appearance */
-        display: none; /* Hidden by default */
+        margin: 0 0 0 1rem; /* Odsazení pro vnořený vzhled */
+        display: none; /* Skryto ve výchozím stavu */
     }
 
     .dropdown.active .dropdown-menu {
-        display: block; /* Show when parent li is active */
+        display: block; /* Zobrazeno, když je nadřazený prvek aktivní */
     }
 
     .dropdown-menu li a {
@@ -412,29 +412,29 @@ nav ul li a.btn-login:hover {
         font-size: clamp(14px, 2.5vw, 16px);
     }
 
-    /* Mobile table adjustments */
+    /* Úpravy tabulky pro mobil */
     .table-responsive {
-        overflow-x: hidden; /* Prevent horizontal scrolling */
-        overflow-y: auto; /* Enable vertical scrolling */
-        max-height: calc(100vh - 200px); /* Fit within viewport */
-        -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+        overflow-x: hidden; /* Zabrání horizontálnímu posouvání */
+        overflow-y: auto; /* Povolí vertikální posouvání */
+        max-height: calc(100vh - 200px); /* Přizpůsobí se výšce viewportu */
+        -webkit-overflow-scrolling: touch; /* Plynulé posouvání na iOS */
     }
 
     .card, .card-body {
-        overflow: visible; /* Ensure parent containers allow scrolling */
+        overflow: visible; /* Umožní posouvání v rodičovských prvcích */
     }
 
     .table {
-        font-size: clamp(11px, 2.3vw, 13px); /* Smaller font for mobile */
+        font-size: clamp(11px, 2.3vw, 13px); /* Menší písmo pro mobil */
     }
 
     .table th,
     .table td {
-        padding: 6px; /* Reduced padding */
-        white-space: nowrap; /* Prevent text wrapping */
+        padding: 6px; /* Zmenšené odsazení */
+        white-space: nowrap; /* Zabrání zalamování textu */
     }
 
-    .table thead th:nth-child(n+5), /* Hide "Platforma", "Vytvořil", "Vytvořeno", "Akce" in tickets.php */
+    .table thead th:nth-child(n+5), /* Skryje sloupce "Platforma", "Vytvořil", "Vytvořeno", "Akce" v tickets.php */
     .table tbody td:nth-child(n+5) {
         display: none;
     }
@@ -487,6 +487,6 @@ nav ul li a.btn-login:hover {
     }
 
     .table-responsive {
-        max-height: calc(100vh - 180px); /* Slightly smaller for smaller screens */
+        max-height: calc(100vh - 180px); /* O něco menší pro menší obrazovky */
     }
 }

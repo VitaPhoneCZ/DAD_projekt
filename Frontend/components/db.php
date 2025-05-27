@@ -4,12 +4,11 @@ $user = "root";
 $pass = "";
 $dbname = "dad_db";
 
-// Create connection
+// Vytvoření připojení k databázi
 $conn = new mysqli($host, $user, $pass, $dbname);
 
-
-// Check connection
+// Kontrola připojení
 if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
+    die("Připojení selhalo: " . $conn->connect_error);
 }
 ?>

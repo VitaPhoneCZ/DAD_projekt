@@ -1,23 +1,25 @@
 <?php
-include 'db.php';
-include __DIR__ . '/components/header.php'; 
+// Načtení potřebných souborů
+include __DIR__ . '/components/db.php';
+include __DIR__ . '/components/header.php';
 include __DIR__ . '/components/footer.php';
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $email = $_POST['email'];
+// Zpracování POST požadavku pro reset hesla
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $email = $_POST['email'] ?? '';
     $code = $_POST['code'] ?? null;
     $newPassword = $_POST['new_password'] ?? null;
 
-    if ($code && $newPassword) {
-        // Ověření kódu v tabulce password_reset_codes
+    if ($email && $code && $newPassword) {
+        // Ověření resetovacího kódu
         $stmt = $conn->prepare("SELECT code FROM password_reset_codes WHERE email = ?");
         $stmt->bind_param("s", $email);
         $stmt->execute();
         $result = $stmt->get_result();
         $storedCode = $result->fetch_assoc();
 
-        if ($storedCode && $storedCode['code'] == $code) {
-            // Kód je správný, nastavíme heslo
+        if ($storedCode && $storedCode['code'] === $code) {
+            // Aktualizace hesla
             $hashedPassword = password_hash($newPassword, PASSWORD_BCRYPT);
             $stmt = $conn->prepare("UPDATE users SET password = ? WHERE email = ?");
             $stmt->bind_param("ss", $hashedPassword, $email);
@@ -32,6 +34,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         } else {
             echo "Neplatný kód nebo e-mail.";
         }
+    } else {
+        echo "Vyplňte všechny povinné údaje.";
     }
 }
 ?>
@@ -42,12 +46,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Založení/Obnovení hesla</title>
-    <link rel="stylesheet" href="s/style.css">
-    <link rel="stylesheet" href="s/auth.css">
+    <link rel="stylesheet" href="styles/style.css">
+    <link rel="stylesheet" href="styles/auth.css">
 </head>
 <body>
     <?php renderHeader('forgot-password'); ?>
     
+    <!-- Formulář pro reset hesla -->
     <main class="auth-container">
         <form class="auth-form" method="POST">
             <h2>Založení/Obnovení hesla</h2>

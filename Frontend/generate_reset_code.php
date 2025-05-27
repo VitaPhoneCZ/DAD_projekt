@@ -1,33 +1,33 @@
 <?php
-// Zahrnutí připojení k databázi
-include 'components/db.php';
-include 'components/post_login_header.php';
+// Načtení potřebných souborů
+include __DIR__ . '/components/db.php';
+include __DIR__ . '/components/post_login_header.php';
 
+// Zpracování POST požadavku pro generování kódu
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $email = $_POST['email'] ?? '';
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    // Získání emailu z formuláře
-    $email = $_POST['email'];
-
-    // Ověření, zda uživatel existuje v databázi
-    $stmt = $conn->prepare("SELECT * FROM users WHERE email = ?");
-    $stmt->bind_param("s", $email);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    $user = $result->fetch_assoc();
-
-    if ($user) {
-        // Generování 6-místného kódu
-        $code = rand(100000, 999999);
-
-        // Uložení kódu do databáze
-        $stmt = $conn->prepare("REPLACE INTO password_reset_codes (email, code) VALUES (?, ?)");
-        $stmt->bind_param("ss", $email, $code);
+    if ($email) {
+        // Ověření existence uživatele
+        $stmt = $conn->prepare("SELECT * FROM users WHERE email = ?");
+        $stmt->bind_param("s", $email);
         $stmt->execute();
+        $result = $stmt->get_result();
+        $user = $result->fetch_assoc();
 
-        // Oznámení o úspěchu
-        echo "Kód pro reset hesla byl vygenerován a uložen. Poskytněte tento kód uživateli: " . $code;
+        if ($user) {
+            // Generování a uložení 6místného kódu
+            $code = rand(100000, 999999);
+            $stmt = $conn->prepare("REPLACE INTO password_reset_codes (email, code) VALUES (?, ?)");
+            $stmt->bind_param("ss", $email, $code);
+            $stmt->execute();
+
+            echo "Kód pro reset hesla byl vygenerován: " . $code;
+        } else {
+            echo "Uživatel s tímto e-mailem neexistuje.";
+        }
     } else {
-        echo "Uživatel s tímto e-mailem neexistuje.";
+        echo "Vyplňte e-mailovou adresu.";
     }
 }
 ?>
@@ -42,7 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <link rel="stylesheet" href="styles/style.css">
 </head>
 <body class="<?= ($_SESSION['dark_mode'] ?? 0) ? 'dark-mode' : '' ?>">
-
+    <!-- Formulář pro generování resetovacího kódu -->
     <div class="container py-5">
         <div class="card shadow-lg border-0 rounded-4 mx-auto" style="max-width: 500px;">
             <div class="card-body p-5">
@@ -61,4 +61,3 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     </div>
 </body>
 </html>
-

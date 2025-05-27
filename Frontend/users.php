@@ -1,17 +1,27 @@
 <?php
-include 'components/db.php';  // Zahrnutí souboru db.php, kde je připojení k databázi
-include 'components/post_login_header.php';
-
-// SQL dotaz pro načtení všech uživatelů
-$query = "SELECT id, name, email, role FROM users";
-$result = $conn->query($query);  // Používáme MySQLi metodu pro provedení dotazu
-
-// Kontrola, zda dotaz vrátil nějaké výsledky
-if ($result->num_rows > 0) {
-    $users = $result->fetch_all(MYSQLI_ASSOC);  // Načteme výsledky do asociativního pole
-} else {
-    $users = [];
+// Spuštění session
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
 }
+
+// Kontrola přihlášení a role uživatele
+if (!isset($_SESSION['user']) || !isset($_SESSION['role']) || $_SESSION['role'] !== 'it') {
+    $_SESSION['error'] = 'Nemáte oprávnění zobrazit tuto stránku.';
+    header('Location: login.php');
+    exit();
+}
+
+// Načtení potřebných souborů
+include __DIR__ . '/components/db.php';
+include __DIR__ . '/components/post_login_header.php';
+
+// Načtení seznamu uživatelů
+$sql = "SELECT id, name, email, role FROM users";
+$stmt = $conn->prepare($sql);
+$stmt->execute();
+$result = $stmt->get_result();
+
+$users = $result->num_rows > 0 ? $result->fetch_all(MYSQLI_ASSOC) : [];
 ?>
 
 <!DOCTYPE html>
@@ -23,9 +33,8 @@ if ($result->num_rows > 0) {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="styles/style.css">
 </head>
-<body class="<?= ($_SESSION['dark_mode'] ?? 0) ? 'dark-mode' : '' ?>">
-
-
+<body class="<?= ($_SESSION['dark_mode'] ?? 0) ? 'dark-mode' : 'bg-light' ?>">
+    <!-- Tabulka se seznamem uživatelů -->
     <div class="container py-5">
         <div class="card shadow-lg border-0 rounded-4">
             <div class="card-body p-5">
@@ -36,30 +45,34 @@ if ($result->num_rows > 0) {
                             <tr>
                                 <th>ID</th>
                                 <th>Jméno</th>
-                                <th>Email</th>
+                                <th>E-mail</th>
                                 <th>Role</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <?php foreach ($users as $user): ?>
+                            <?php if (!empty($users)): ?>
+                                <?php foreach ($users as $user): ?>
+                                    <tr>
+                                        <td><?= htmlspecialchars($user['id']) ?></td>
+                                        <td><?= htmlspecialchars($user['name']) ?></td>
+                                        <td><?= htmlspecialchars($user['email']) ?></td>
+                                        <td><?= htmlspecialchars($user['role']) ?></td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            <?php else: ?>
                                 <tr>
-                                    <td><?= htmlspecialchars($user['id']) ?></td>
-                                    <td><?= htmlspecialchars($user['name']) ?></td>
-                                    <td><?= htmlspecialchars($user['email']) ?></td>
-                                    <td><?= htmlspecialchars($user['role']) ?></td>
+                                    <td colspan="4" class="text-center text-muted py-4">Žádní uživatelé k zobrazení</td>
                                 </tr>
-                            <?php endforeach; ?>
+                            <?php endif; ?>
                         </tbody>
                     </table>
                 </div>
             </div>
         </div>
     </div>
-
 </body>
 </html>
-
 <?php
-// Zavření připojení na konci souboru
+// Uzavření připojení
 $conn->close();
 ?>

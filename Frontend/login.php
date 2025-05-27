@@ -1,13 +1,14 @@
 <?php
+// Spuštění session
 session_start();
 
-// Pokud je uživatel přihlášený, přesměruj ho na dashboard.php
+// Přesměrování přihlášeného uživatele
 if (isset($_SESSION['user'])) {
     header("Location: dashboard.php");
     exit();
 }
 
-// Načtení zpracování přihlášení
+// Načtení potřebných souborů
 include __DIR__ . '/components/login_process.php';
 include __DIR__ . '/components/header.php';
 include __DIR__ . '/components/footer.php';
@@ -19,12 +20,12 @@ include __DIR__ . '/components/footer.php';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Přihlášení</title>
-    <link rel="stylesheet" href="s/style.css">
-    <link rel="stylesheet" href="s/auth.css">
+    <link rel="stylesheet" href="styles/style.css">
+    <link rel="stylesheet" href="styles/auth.css">
 </head>
 <body>
     <?php renderHeader('login'); ?>
-
+    <!-- Formulář pro přihlášení -->
     <main class="auth-container">
         <form class="auth-form" action="login.php" method="POST">
             <h2>Přihlášení</h2>
@@ -43,7 +44,6 @@ include __DIR__ . '/components/footer.php';
             <p><a href="forgot-password.php">Zapomněli jste heslo, nebo jste tu noví?</a></p>
         </form>
     </main>
-
     <?php renderFooter(); ?>
 </body>
 </html>
