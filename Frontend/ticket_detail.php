@@ -103,6 +103,7 @@ $result_replies = $stmt_replies->get_result();
     <title>Detail ticketu | Ticket System</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="styles/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <script>
         function confirmClose() {
             return confirm("Chcete opravdu uzavřít tento ticket?");
@@ -114,11 +115,13 @@ $result_replies = $stmt_replies->get_result();
     <div class="container py-5">
         <div class="card shadow-lg border-0 rounded-4">
             <div class="card-body p-5">
-                <h2 class="text-primary mb-4">Detail ticketu</h2>
+                <h2 class="text-primary mb-4">
+                    <i class="fas fa-info-circle"></i> Detail ticketu
+                </h2>
 
                 <?php if (!empty($zprava)): ?>
-                    <div class="alert alert-info" role="alert">
-                        <?= htmlspecialchars($zprava) ?>
+                    <div class="alert alert-info" role="alert" style="border-radius: 12px; border-left: 4px solid #3b82f6;">
+                        <i class="fas fa-info-circle"></i> <?= htmlspecialchars($zprava) ?>
                     </div>
                 <?php endif; ?>
 
@@ -177,7 +180,7 @@ $result_replies = $stmt_replies->get_result();
 
                 <div class="my-4">
                     <a href="<?= ($ticket['status'] === 'Otevřený') ? 'dashboard.php' : 'tickets.php' ?>" class="btn btn-outline-secondary rounded-pill px-4">
-                        ← Zpět na seznam
+                        <i class="fas fa-arrow-left"></i> Zpět na seznam
                     </a>
                 </div>
 
@@ -188,23 +191,32 @@ $result_replies = $stmt_replies->get_result();
                                 <label for="message" class="form-label">Napište zprávu:</label>
                                 <textarea id="message" name="message" class="form-control rounded-3" rows="4" required><?= htmlspecialchars($_POST['message'] ?? '') ?></textarea>
                             </div>
-                            <button type="submit" name="submit_message" class="btn btn-primary rounded-pill px-4">Odeslat zprávu</button>
+                            <button type="submit" name="submit_message" class="btn btn-primary rounded-pill px-4">
+                                <i class="fas fa-paper-plane"></i> Odeslat zprávu
+                            </button>
                         </form>
                     </div>
                 <?php endif; ?>
 
                 <?php if ($ticket['status'] === 'Otevřený' && ($role === 'it' || $ticket['owner_id'] === $user_id)): ?>
                     <form action="ticket_detail.php?id=<?= $ticket_id ?>" method="POST" onsubmit="return confirmClose()" class="mb-4">
-                        <button type="submit" name="close_ticket" class="btn btn-danger rounded-pill px-4">Uzavřít ticket</button>
+                        <button type="submit" name="close_ticket" class="btn btn-danger rounded-pill px-4">
+                            <i class="fas fa-times-circle"></i> Uzavřít ticket
+                        </button>
                     </form>
                 <?php endif; ?>
 
-                <h3 class="mt-5 mb-3">Odpovědi:</h3>
+                <h3 class="mt-5 mb-3">
+                    <i class="fas fa-comments"></i> Odpovědi:
+                </h3>
                 <?php while ($reply = $result_replies->fetch_assoc()): ?>
-                    <div class="bg-light p-3 rounded-3 mb-3 shadow-sm">
-                        <strong><?= htmlspecialchars($reply['name']) ?></strong>
-                        <span class="text-muted small">(<?= htmlspecialchars($reply['created_at']) ?>)</span><br>
-                        <?= nl2br(htmlspecialchars($reply['message'])) ?>
+                    <div class="bg-light p-3 rounded-3 mb-3 shadow-sm reply-message" style="border-left: 4px solid #6366f1;">
+                        <div class="d-flex align-items-center mb-2">
+                            <i class="fas fa-user-circle me-2" style="color: #6366f1; font-size: 1.2rem;"></i>
+                            <strong><?= htmlspecialchars($reply['name']) ?></strong>
+                            <span class="text-muted small ms-2">(<?= htmlspecialchars($reply['created_at']) ?>)</span>
+                        </div>
+                        <p class="mb-0" style="margin-top: 0.5rem;"><?= nl2br(htmlspecialchars($reply['message'])) ?></p>
                     </div>
                 <?php endwhile; ?>
             </div>

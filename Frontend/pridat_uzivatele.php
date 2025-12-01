@@ -58,13 +58,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <title>Přidat uživatele</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="styles/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 </head>
 <body class="<?= ($_SESSION['dark_mode'] ?? 0) ? 'dark-mode' : '' ?>">
     <!-- Formulář pro přidání uživatele -->
     <div class="container py-5">
         <div class="card shadow-lg border-0 rounded-4" style="max-width: 600px; margin: 0 auto;">
             <div class="card-body p-5">
-                <h2 class="text-primary mb-4">Přidání nového uživatele</h2>
+                <h2 class="text-primary mb-4">
+                    <i class="fas fa-user-plus"></i> Přidání nového uživatele
+                </h2>
 
                 <?php if (!empty($zprava)): ?>
                     <div class="alert alert-info" role="alert">
@@ -89,7 +92,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <option value="it" <?= (isset($_POST['role']) && $_POST['role'] === 'it') ? 'selected' : '' ?>>IT</option>
                         </select>
                     </div>
-                    <button type="submit" class="btn btn-primary rounded-pill px-4">Přidat uživatele</button>
+                    <button type="submit" class="btn btn-primary rounded-pill px-4">
+                        <i class="fas fa-check"></i> Přidat uživatele
+                    </button>
                 </form>
             </div>
         </div>

@@ -48,6 +48,7 @@ $result = $stmt->get_result();
     <title>Seznam ticketů</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="styles/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 </head>
 <body class="<?= ($_SESSION['dark_mode'] ?? 0) ? 'dark-mode' : 'bg-light' ?>">
     <!-- Tabulka se seznamem ticketů -->
@@ -55,9 +56,13 @@ $result = $stmt->get_result();
         <div class="card shadow-lg border-0 rounded-4">
             <div class="card-body p-5">
                 <div class="d-flex justify-content-between align-items-center mb-4">
-                    <h2 class="text-primary mb-0">Seznam ticketů</h2>
+                    <h2 class="text-primary mb-0">
+                        <i class="fas fa-list"></i> Seznam ticketů
+                    </h2>
                     <?php if ($role === 'it'): ?>
-                        <a href="components/exporttickets.php" class="btn btn-success rounded-pill">Exportovat do Excelu</a>
+                        <a href="components/exporttickets.php" class="btn btn-success rounded-pill">
+                            <i class="fas fa-file-excel"></i> Exportovat do Excelu
+                        </a>
                     <?php endif; ?>
                 </div>
                 <div class="table-responsive">
@@ -102,7 +107,9 @@ $result = $stmt->get_result();
                                         <td><?= htmlspecialchars($row['name']) ?></td>
                                         <td><?= htmlspecialchars($row['created_at']) ?></td>
                                         <td>
-                                            <a href="ticket_detail.php?id=<?= $row['id'] ?>" class="btn btn-sm btn-outline-primary rounded-pill px-3">Zobrazit</a>
+                                            <a href="ticket_detail.php?id=<?= $row['id'] ?>" class="btn btn-sm btn-outline-primary rounded-pill px-3">
+                                                <i class="fas fa-eye"></i> Zobrazit
+                                            </a>
                                         </td>
                                     </tr>
                                 <?php endwhile; ?>

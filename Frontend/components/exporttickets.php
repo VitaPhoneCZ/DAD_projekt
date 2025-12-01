@@ -13,7 +13,7 @@ if (!isset($_SESSION['user']) || !isset($_SESSION['role']) || $_SESSION['role'] 
 
 // Načtení potřebných souborů
 require __DIR__ . '/../vendor/autoload.php';
-include __DIR__ . '/../db.php';
+include __DIR__ . '/db.php';
 
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;

@@ -22,6 +22,7 @@ include __DIR__ . '/components/footer.php';
     <title>Přihlášení</title>
     <link rel="stylesheet" href="styles/style.css">
     <link rel="stylesheet" href="styles/auth.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 </head>
 <body>
     <?php renderHeader('login'); ?>
@@ -30,17 +31,19 @@ include __DIR__ . '/components/footer.php';
         <form class="auth-form" action="login.php" method="POST">
             <h2>Přihlášení</h2>
 
-            <?php if (isset($error_message)): ?>
-                <p class="error"><?= htmlspecialchars($error_message); ?></p>
+            <?php if (isset($_SESSION['error'])): ?>
+                <p class="error"><?= htmlspecialchars($_SESSION['error']); unset($_SESSION['error']); ?></p>
             <?php endif; ?>
 
-            <label for="email">E-mail</label>
+            <label for="email"><i class="fas fa-envelope"></i> E-mail</label>
             <input type="email" id="email" name="email" placeholder="Zadejte e-mail" required>
 
-            <label for="password">Heslo</label>
+            <label for="password"><i class="fas fa-lock"></i> Heslo</label>
             <input type="password" id="password" name="password" placeholder="Zadejte heslo" required>
 
-            <button type="submit" class="btn">Přihlásit se</button>
+            <button type="submit" class="btn">
+                <i class="fas fa-sign-in-alt"></i> Přihlásit se
+            </button>
             <p><a href="forgot-password.php">Zapomněli jste heslo, nebo jste tu noví?</a></p>
         </form>
     </main>

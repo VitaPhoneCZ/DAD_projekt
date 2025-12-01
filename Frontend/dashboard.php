@@ -59,12 +59,15 @@ $result = $stmt->get_result();
     <title>Otevřené tickety | Ticket System</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="styles/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 </head>
 <body class="<?= ($_SESSION['dark_mode'] ?? 0) ? 'dark-mode' : '' ?>">
     <div class="container py-5">
         <div class="card shadow-lg border-0 rounded-4">
             <div class="card-body p-5">
-                <h2 class="mb-4 text-primary">Otevřené tickety</h2>
+                <h2 class="mb-4 text-primary">
+                    <i class="fas fa-ticket-alt"></i> Otevřené tickety
+                </h2>
                 <div class="table-responsive">
                     <table class="table table-hover align-middle">
                         <thead class="table-light">
@@ -97,7 +100,7 @@ $result = $stmt->get_result();
                                         <td><?= htmlspecialchars($row['name']) ?></td>
                                         <td>
                                             <a href="ticket_detail.php?id=<?= $row['id'] ?>" class="btn btn-outline-primary btn-sm rounded-pill px-3">
-                                                Zobrazit
+                                                <i class="fas fa-eye"></i> Zobrazit
                                             </a>
                                         </td>
                                     </tr>

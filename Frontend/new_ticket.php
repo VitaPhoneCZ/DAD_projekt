@@ -32,13 +32,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmt->bind_param("issss", $user_id, $title, $description, $priority, $platform);
 
     if ($stmt->execute()) {
-        echo "Ticket byl úspěšně vytvořen.";
+        $_SESSION['success'] = 'Ticket byl úspěšně vytvořen.';
+        header('Location: tickets.php');
+        exit();
     } else {
-        echo "Chyba při vytváření ticketu: " . $stmt->error;
+        $_SESSION['error'] = 'Chyba při vytváření ticketu: ' . $stmt->error;
     }
 
     $stmt->close();
-    $conn->close();
+    // Nepoužívat $conn->close() zde, protože připojení může být použito jinde
 }
 ?>
 
@@ -50,13 +52,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <title>Vytvořit nový ticket</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="styles/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 </head>
 <body class="<?= ($_SESSION['dark_mode'] ?? 0) ? 'dark-mode' : '' ?>">
     <!-- Formulář pro vytvoření ticketu -->
     <div class="container py-5">
         <div class="card shadow-lg border-0 rounded-4 mx-auto" style="max-width: 600px;">
             <div class="card-body p-5">
-                <h2 class="mb-4 text-primary text-center">Vytvořit nový ticket</h2>
+                <h2 class="mb-4 text-primary text-center">
+                    <i class="fas fa-plus-circle"></i> Vytvořit nový ticket
+                </h2>
+                
+                <?php if (isset($_SESSION['error'])): ?>
+                    <div class="alert alert-danger" role="alert">
+                        <i class="fas fa-exclamation-circle"></i> <?= htmlspecialchars($_SESSION['error']); unset($_SESSION['error']); ?>
+                    </div>
+                <?php endif; ?>
+                
+                <?php if (isset($_SESSION['success'])): ?>
+                    <div class="alert alert-success" role="alert">
+                        <i class="fas fa-check-circle"></i> <?= htmlspecialchars($_SESSION['success']); unset($_SESSION['success']); ?>
+                    </div>
+                <?php endif; ?>
+                
                 <form action="new_ticket.php" method="POST">
                     <div class="mb-3">
                         <label for="title" class="form-label">Název ticketu</label>
@@ -84,7 +102,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <option value="iPhone" <?= (isset($_POST['platform']) && $_POST['platform'] === 'iPhone') ? 'selected' : '' ?>>iPhone</option>
                         </select>
                     </div>
-                    <button type="submit" class="btn btn-primary w-100 rounded-pill py-2">Vytvořit ticket</button>
+                    <button type="submit" class="btn btn-primary w-100 rounded-pill py-2">
+                        <i class="fas fa-check"></i> Vytvořit ticket
+                    </button>
                 </form>
             </div>
         </div>

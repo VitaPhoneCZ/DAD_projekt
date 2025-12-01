@@ -1,73 +1,63 @@
 <?php
-
+// Spuštění session
 if (session_status() == PHP_SESSION_NONE) {
-    session_start(); // Spustí session pouze pokud není aktivní
+    session_start();
 }
 
-
-// Debugging - vypíše všechny session proměnné
-echo "<pre>";
-print_r($_SESSION);
-echo "</pre>";
-
-// Zkontroluje, jestli je user_id nastaven
+// Kontrola přihlášení
 if (!isset($_SESSION['user_id'])) {
-    die('Chyba: Uživatel není přihlášen. <br> Zkontroluj, jestli je user_id nastaven ve session.');
+    header('Location: ../login.php');
+    exit();
 }
 
-// Pokračuje dál, pokud je přihlášen
-include 'db.php'; 
-?>
-
-<?php
-
-
-if (!isset($_SESSION['user_id'])) {
-    die('Uživatel není přihlášen.');
-}
-
-include 'db.php'; // Připojení k databázi
+// Načtení připojení k databázi
+include __DIR__ . '/db.php';
 
 // Získání hodnot z formuláře
-$nazev = isset($_POST['nazev']) ? trim($_POST['nazev']) : '';
-$popis = isset($_POST['popis']) ? trim($_POST['popis']) : '';
-$priorita = isset($_POST['priorita']) ? $_POST['priorita'] : 'Nízká';
-$platforma = isset($_POST['platforma']) ? $_POST['platforma'] : 'Windows';
+$title = isset($_POST['title']) ? trim($_POST['title']) : (isset($_POST['nazev']) ? trim($_POST['nazev']) : '');
+$description = isset($_POST['description']) ? trim($_POST['description']) : (isset($_POST['popis']) ? trim($_POST['popis']) : '');
+$priority = isset($_POST['priority']) ? $_POST['priority'] : (isset($_POST['priorita']) ? $_POST['priorita'] : 'Nízká');
+$platform = isset($_POST['platform']) ? $_POST['platform'] : (isset($_POST['platforma']) ? $_POST['platforma'] : 'Windows');
 
 // Ověření, že pole nejsou prázdná
-if (empty($nazev) || empty($popis)) {
-    die('Chyba: Název a Popis nesmí být prázdné.');
+if (empty($title) || empty($description)) {
+    $_SESSION['error'] = 'Název a Popis nesmí být prázdné.';
+    header('Location: ../new_ticket.php');
+    exit();
 }
 
 // Ověření platnosti hodnot pro prioritu a platformu
 $platne_priority = ['Nízká', 'Střední', 'Vysoká'];
 $platne_platformy = ['Windows', 'Mac', 'Linux', 'Android', 'iPhone'];
 
-if (!in_array($priorita, $platne_priority) || !in_array($platforma, $platne_platformy)) {
-    die('Chyba: Neplatná hodnota pro prioritu nebo platformu.');
+if (!in_array($priority, $platne_priority) || !in_array($platform, $platne_platformy)) {
+    $_SESSION['error'] = 'Neplatná hodnota pro prioritu nebo platformu.';
+    header('Location: ../new_ticket.php');
+    exit();
 }
 
-// Výchozí hodnoty
-$stav = 'Otevřený'; // Vždy se vytvoří jako "Otevřený"
-$user_id = $_SESSION['user_id']; // ID přihlášeného uživatele
+// ID přihlášeného uživatele
+$user_id = $_SESSION['user_id'];
 
-// Příprava SQL dotazu
+// Příprava SQL dotazu (status je defaultně 'Otevřený' v databázi)
 $sql = "INSERT INTO tickets (user_id, title, description, priority, platform, created_at) VALUES (?, ?, ?, ?, ?, NOW())";
 
 $stmt = $conn->prepare($sql);
 
-// Binding parametrů
-$stmt->bind_param("isssss", $user_id, $nazev, $popis, $stav, $priorita, $platforma);
+// Binding parametrů - pouze 5 parametrů (user_id, title, description, priority, platform)
+$stmt->bind_param("issss", $user_id, $title, $description, $priority, $platform);
 
 // Spuštění dotazu
 if ($stmt->execute()) {
-    echo "Ticket byl úspěšně vytvořen.";
-    header('Location: tickets.php'); // Přesměrování na seznam ticketů
+    $_SESSION['success'] = 'Ticket byl úspěšně vytvořen.';
+    header('Location: ../tickets.php');
     exit();
 } else {
-    echo "Chyba při vytváření ticketu: " . $stmt->error;
+    $_SESSION['error'] = 'Chyba při vytváření ticketu: ' . $stmt->error;
+    header('Location: ../new_ticket.php');
+    exit();
 }
 
 $stmt->close();
-$conn->close();
+// Nepoužívat $conn->close() zde, protože připojení může být použito jinde
 ?>

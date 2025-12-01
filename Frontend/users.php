@@ -32,13 +32,16 @@ $users = $result->num_rows > 0 ? $result->fetch_all(MYSQLI_ASSOC) : [];
     <title>Seznam uživatelů</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="styles/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 </head>
 <body class="<?= ($_SESSION['dark_mode'] ?? 0) ? 'dark-mode' : 'bg-light' ?>">
     <!-- Tabulka se seznamem uživatelů -->
     <div class="container py-5">
         <div class="card shadow-lg border-0 rounded-4">
             <div class="card-body p-5">
-                <h2 class="mb-4 text-primary">Seznam uživatelů</h2>
+                <h2 class="mb-4 text-primary">
+                    <i class="fas fa-users"></i> Seznam uživatelů
+                </h2>
                 <div class="table-responsive">
                     <table class="table table-hover align-middle">
                         <thead class="table-light">

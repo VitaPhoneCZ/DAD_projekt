@@ -1,36 +1,36 @@
 <?php
-session_start();
-include 'db.php';
+// Spuštění session
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+// Kontrola přihlášení a POST parametrů
 if (isset($_SESSION['email']) && isset($_POST['dark_mode'])) {
-    // Připojení k databázi
+    // Načtení připojení k databázi
+    include __DIR__ . '/db.php';
 
-    
-    $conn = new mysqli($host, $user, $pass, $dbname);
-
-    // Zkontrolujeme připojení
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
-    }
-
-    // Získáme hodnotu dark_mode z požadavku
-    $dark_mode = $_POST['dark_mode'];
+    // Získání hodnoty dark_mode z požadavku
+    $dark_mode = (int)$_POST['dark_mode']; // Zajištění, že je to integer (0 nebo 1)
     $email = $_SESSION['email'];
 
     // Příprava a vykonání SQL dotazu pro aktualizaci hodnoty dark_mode v databázi
     $stmt = $conn->prepare("UPDATE users SET dark_mode = ? WHERE email = ?");
-    $stmt->bind_param("is", $dark_mode, $email);  // Parametr pro dark_mode (tinyint) a email (varchar)
+    $stmt->bind_param("is", $dark_mode, $email);
     
     // Vykonáme dotaz
     if ($stmt->execute()) {
+        // Aktualizace session
+        $_SESSION['dark_mode'] = $dark_mode;
         echo "Dark mode nastaveno.";
     } else {
+        http_response_code(500);
         echo "Došlo k chybě při ukládání změny.";
     }
 
-    // Uzavřeme připojení
     $stmt->close();
-    $conn->close();
+    // Nepoužívat $conn->close() zde, protože připojení může být použito jinde
 } else {
+    http_response_code(400);
     echo "Není nastavený email nebo dark_mode.";
 }
 ?>

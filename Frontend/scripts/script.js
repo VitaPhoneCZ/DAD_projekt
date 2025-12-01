@@ -25,10 +25,24 @@ function openLightbox(img) {
     const lightbox = document.getElementById("lightbox");
     const lightboxImg = document.getElementById("lightbox-img");
 
-    lightbox.style.display = "flex";
-    lightboxImg.src = img.src;
+    if (lightbox && lightboxImg) {
+        lightbox.classList.add("active");
+        lightboxImg.src = img.src;
+        document.body.style.overflow = "hidden";
+    }
 }
 
 function closeLightbox() {
-    document.getElementById("lightbox").style.display = "none";
+    const lightbox = document.getElementById("lightbox");
+    if (lightbox) {
+        lightbox.classList.remove("active");
+        document.body.style.overflow = "";
+    }
 }
+
+// Close lightbox on Escape key
+document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") {
+        closeLightbox();
+    }
+});

@@ -5,7 +5,7 @@ if (session_status() === PHP_SESSION_NONE) {
 }
 
 // Načtení připojení k databázi
-include __DIR__ . '/../db.php';
+include __DIR__ . '/db.php';
 
 // Zpracování přihlašovacího formuláře
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -16,7 +16,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Ověření vstupů
         if (empty($email) || empty($password)) {
             $_SESSION['error'] = 'Vyplňte e-mail a heslo.';
-            header('Location: login.php');
+            // Přesměrování je relativní k aktuálnímu URL, ne k umístění souboru
+            $redirect_url = strpos($_SERVER['PHP_SELF'], '/components/') !== false 
+                ? '../login.php' 
+                : 'login.php';
+            header('Location: ' . $redirect_url);
             exit();
         }
 
@@ -38,7 +42,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $_SESSION['user_id'] = $user['id'];
 
                 // Přesměrování na dashboard
-                header('Location: dashboard.php');
+                $redirect_url = strpos($_SERVER['PHP_SELF'], '/components/') !== false 
+                    ? '../dashboard.php' 
+                    : 'dashboard.php';
+                header('Location: ' . $redirect_url);
                 exit();
             } else {
                 $_SESSION['error'] = 'Neplatné heslo.';
@@ -48,15 +55,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
         // Přesměrování zpět na přihlášení s chybou
-        header('Location: login.php');
+        $redirect_url = strpos($_SERVER['PHP_SELF'], '/components/') !== false 
+            ? '../login.php' 
+            : 'login.php';
+        header('Location: ' . $redirect_url);
         $stmt->close();
+        exit();
     } catch (Exception $e) {
         $_SESSION['error'] = 'Chyba při přihlášení: ' . $e->getMessage();
-        header('Location: login.php');
+        $redirect_url = strpos($_SERVER['PHP_SELF'], '/components/') !== false 
+            ? '../login.php' 
+            : 'login.php';
+        header('Location: ' . $redirect_url);
         exit();
     }
 }
-
-// Uzavření připojení
-$conn->close();
+// Nepoužívat $conn->close() zde, protože připojení může být použito jinde
 ?>
